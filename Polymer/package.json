@@ -1,0 +1,22 @@
+{
+  "name": "Polymer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx polymer serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.2",
+    "lit-element": "^2.0.1",
+    "pwa-helpers": "^0.9.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "polymer-cli": "^1.9.7"
+  }
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Todo App</title>
+		<style>
+			body {
+				margin: 0;
+				font-family: 'Roboto', sans-serif;
+			}
+
+			@import url('https://fonts.googleapis.com/css?family=Roboto');
+		</style>
+	</head>
+	<body>
+		<todo-app></todo-app>
+		<script>
+			window.process = { env: { NODE_ENV: 'production' } }
+		</script>
+		<script type="module" src="src/views/todo-app.js"></script>
+	</body>
+</html>
