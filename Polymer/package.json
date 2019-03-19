@@ -2,7 +2,6 @@
   "name": "Polymer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "npx polymer serve"
   },
@@ -11,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "@polymer/app-layout": "^3.0.2",
+    "@polymer/iron-icon": "^3.0.1",
+    "@polymer/paper-item": "^3.0.1",
+    "@polymer/paper-listbox": "^3.0.1",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.0.1",

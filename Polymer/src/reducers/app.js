@@ -1,6 +1,7 @@
 import {
 	NAVIGATE,
-	DRAWER_STATE_UPDATE
+	DRAWER_STATE_UPDATE,
+	TOGGLE_ACCOUNT_SELECTOR
 } from '../actions/app';
 
 import pages from '../page-config';
@@ -12,7 +13,8 @@ const initialState = {
 		header: true,
 		title: 'Loading...'
 	},
-	drawerOpened: false
+	drawerOpened: false,
+	accountSelectorOpened: false
 }
 
 const app = (state = initialState, action) => {
@@ -25,6 +27,11 @@ const app = (state = initialState, action) => {
 			return {
 				...state,
 				drawerOpened: action.state
+			}
+		case TOGGLE_ACCOUNT_SELECTOR:
+			return {
+				...state,
+				accountSelectorOpened: !state.accountSelectorOpened
 			}
 		default:
 			return state;

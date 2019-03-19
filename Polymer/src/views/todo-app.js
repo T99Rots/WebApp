@@ -6,15 +6,19 @@ import { updateMetadata } from 'pwa-helpers/metadata';
 //importing the actions required by this app
 import {
 	navigate,
-	updateDrawerState
+	updateDrawerState,
+	toggleAccountSelector
 } from '../actions/app'
 import { store } from '../store';
 
 //importing web components used on this page
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '../components/drawer-page-list';
 import '../components/view-container';
+import { dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
 
 import { menuIcon } from '../components/icons';
 
@@ -51,35 +55,157 @@ class TodoApp extends connect(store)(LitElement) {
 				--app-drawer-text-color: var(--app-light-text-color);
 			}
 
+			[hidden] {
+				display: none;
+			}
+
 			app-header {
 				position: fixed;
 				top: 0;
 				left: 0;
 				width: 100%;
+				background: var(--app-header-background-color);
+				color: var(--app-header-text-color);
+				z-index: 9;
+			}
+
+			button {
+				background: none;
+				border: none;
+				cursor: pointer;
+			}
+
+			button:focus {
+				outline: none;
+			}
+
+			app-drawer {
+				z-index: 10;
+				background: var(--app-drawer-background-color);
+				color: var(--app-drawer-text-color);
+			}
+
+			#drawer-header {
+				padding: 0 15px 18px 15px;
+				border-bottom: 1px solid #eee;
+				position: relative;
+				cursor: pointer;
+			}
+
+			#profile-picture-container {
+				display: flex;
+				align-items: center;
+				height: 100px;
+			}
+
+			.avatar {
+				width: 35px;
+				height: 35px;
+				background-size: cover;
+				background-position: center;
+				border-radius: 50%;
+				display: inline-block;
+			}
+
+			.avatar-big {
+				width: 60px;
+				height: 60px;
+			}
+
+			#drawer-header h2 , p {
+				margin: 0;
+			}
+
+			#account-selection-indicator {
+				float: right;
+				position: relative;
+				top: -30px;
+			}
+
+			#account-selector {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			#account-selector li {
+				padding: 8px;
+				display: flex;
+				align-items: center;
+				background: red;
+			}
+
+			#account-selector li:hover {
+				background: rgba(0,0,0,0.2);
+			}
+
+			#account-selector .avatar {
+				margin: 0 12px 0 5px;
+				background: #eee;
+			}
+
+			#account-selector .avatar svg {
+				width: 100%;
+				height: 100%;
+				fill: #999;
+			}
+
+			drawer-page-list {
+				margin-top: 5px;
+			}
+
+			app-header svg {
+				fill: var(--app-header-text-color);
 			}
 
 			@media (min-width: 377.8px) {
         :host {
           --app-drawer-width: 340px;
         }
-      }
+			}
 		`
 	}
 
 	render() {
 		return html`
-			<app-header>
-				<button @click="${this._menuButtonClicked}">${menuIcon}</button>
-				<h1>Todo App</h1>
+			<app-header condenses reveals effects="waterfall">
+				<app-toolbar>
+					<button @click="${this._menuButtonClicked}">${menuIcon}</button>
+					<h1>Todo App</h1>
+				</app-toolbar>
 			</app-header>
 
 			<app-drawer 
-				.opened=${this._drawerOpened}
+				.opened=${this._drawerOpened || true}
 				@opened-changed=${this._drawerOpenedChanged}>
-				<drawer-page-list .pages="${this._pages}"></drawer-page-list>
+				<div id="drawer-header" @click="${() => store.dispatch(toggleAccountSelector)}">
+					<div id="profile-picture-container">
+						<div class="avatar avatar-big" style="background-image: url('/img/woman.jpg')"></div>
+					</div>
+					<h2>George Johnson</h2>
+					<p>george.johnson@gmail.com</p>
+					<div id="account-selection-indicator">
+						${this._accountSelectorOpened? dropUpIcon: dropDownIcon}
+					</div>
+				</div>
+				<drawer-page-list .pages="${this._pages}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
+				<ul id="account-selector" ?hidden="${!this._accountSelectorOpened}">
+					${this._accounts.map(account => html`
+						<li>
+							<div class="avatar">
+								${personIcon}
+							</div>
+							${account.name}
+						</li>
+					`)}
+					<li>
+						Add account
+					</li>
+				</ul>
+
 			</app-drawer>
 
-			<view-container></view-container>
+			<view-container .pages="${this._pages}" .page="${this._page}"></view-container>
 			<h1>test</h1>
 		`
 	}
@@ -110,13 +236,32 @@ class TodoApp extends connect(store)(LitElement) {
 			_page: Object,
 			_pages: Object,
 			_drawerOpened: Boolean,
+			_accountSelectorOpened: Boolean
 		}
 	}
 
 	stateChanged(state) {
 		this._page = state.app.page;
 		this._drawerOpened = state.app.drawerOpened;
-		this._pages = state.app.pages
+		this._pages = state.app.pages;
+		this._accountSelectorOpened = state.app.accountSelectorOpened;
+		this._accounts = [
+			{
+				name: 'Jack Benton',
+				email: 'jackyboii@gmail.com',
+				avatar: '/img/woman.jpg'
+			},
+			{
+				name: 'Bli A',
+				email: 'youwotm9@gmail.com',
+				avatar: '/img/woman.jpg'
+			},
+			{
+				name: 'Katie Jackson',
+				email: 'the.kate.1993@gmail.com',
+				avatar: '/img/woman.jpg'
+			}
+		]
 	}
 
 }

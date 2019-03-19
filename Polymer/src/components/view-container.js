@@ -1,54 +1,20 @@
-import { LitElement, html } from 'lit-element';
-import { connect } from 'pwa-helpers/connect-mixin';
-import { store } from '../store';
+import { LitElement, html, css } from 'lit-element';
 import './page-view-element';
 
-class ViewContainer extends connect(store)(LitElement) {
+class ViewContainer extends LitElement {
+	static get styles () {
+		return css`
+			.page {
+				display: none;
+			}
+			.page[active] {
+				display: block;
+			}
+		`
+	} 
+
   render () {
-    for (const page of this._pages) {
-      let elem;
-      if (!(page in this._pageElements)) {
-        this._pageElements[page] = document.createElement(page);
-        elem = this._pageElements[page];
-        elem.className = 'page';
-      }
-      else {
-        elem = this._pageElements[page];
-      }
-      if (page === this._page) {
-        elem.setAttribute('active', '');
-      }
-      else {
-        elem.removeAttribute('active');
-      }
-    }
-    return html`
-      <style>
-        .page {
-          display: none;
-        }
-        .page[active] {
-          display: block;
-        }
-      </style>
-      ${Object.values(this._pageElements)}
-    `;
-  }
-
-  static get properties () {
-    return {
-      _pages: Array
-    };
-  }
-
-  constructor () {
-    super();
-    this._pageElements = {};
-  }
-
-  stateChanged (state) {
-
-    const getTagNames = (pages) => {
+		const getTagNames = (pages) => {
       const arr = [];
       const checkTag = (page) => {
         if (!('id' in page || 'tagName' in page)) return;
@@ -66,8 +32,40 @@ class ViewContainer extends connect(store)(LitElement) {
       return arr;
     };
 
-    this._pages = state.app.pages ? getTagNames(state.app.pages) : [];
-    this._page = state.app.page.tagName || 'assignments-page';
+		const tagNames = getTagNames(this.pages);
+
+    for (const tagName of tagNames) {
+      let elem;
+      if (!(tagName in this._pageElements)) {
+        this._pageElements[tagName] = document.createElement(tagName);
+        elem = this._pageElements[tagName];
+        elem.className = 'page';
+      }
+      else {
+        elem = this._pageElements[tagName];
+      }
+      if (tagName === this.page.tagName) {
+        elem.setAttribute('active', '');
+      }
+      else {
+        elem.removeAttribute('active');
+      }
+    }
+    return html`
+      ${Object.values(this._pageElements)}
+    `;
+  }
+
+  static get properties () {
+    return {
+			pages: Object,
+			page: Object
+    };
+  }
+
+  constructor () {
+    super();
+    this._pageElements = {};
   }
 }
 

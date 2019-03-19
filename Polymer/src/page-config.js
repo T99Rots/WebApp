@@ -9,12 +9,10 @@ export default {
     tagName: a => a.id ? `${a.id}-page` : false,
     drawer: true,
     header: true,
-    search: false,
-    // redirect all pages to the login page when you aren't logged in
-    redirect: () => isLoggedIn() ? false : '/login'
+		search: false
   },
   root: {
-    redirect: () => isLoggedIn() ? '/assignments' : '/login'
+    redirect: '/dashboard'
   },
   404: {
     script: 'page-404.js',
@@ -26,6 +24,9 @@ export default {
 		dashboard: {
 			id: 'dashboard',
 			icon: dashboardIcon
+		},
+		overview: {
+			id: 'overview'
 		}
   }
 };
