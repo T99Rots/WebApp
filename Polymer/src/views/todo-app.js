@@ -16,6 +16,7 @@ import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
+import '@polymer/paper-item/paper-icon-item';
 import '../components/drawer-page-list';
 import '../components/view-container';
 import { dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
@@ -88,7 +89,6 @@ class TodoApp extends connect(store)(LitElement) {
 			#drawer-header {
 				padding: 0 15px 18px 15px;
 				border-bottom: 1px solid #eee;
-				position: relative;
 				cursor: pointer;
 			}
 
@@ -96,20 +96,6 @@ class TodoApp extends connect(store)(LitElement) {
 				display: flex;
 				align-items: center;
 				height: 100px;
-			}
-
-			.avatar {
-				width: 35px;
-				height: 35px;
-				background-size: cover;
-				background-position: center;
-				border-radius: 50%;
-				display: inline-block;
-			}
-
-			.avatar-big {
-				width: 60px;
-				height: 60px;
 			}
 
 			#drawer-header h2 , p {
@@ -122,32 +108,29 @@ class TodoApp extends connect(store)(LitElement) {
 				top: -30px;
 			}
 
-			#account-selector {
-				list-style: none;
-				padding: 0;
-				margin: 0;
+			#account-selector paper-icon-item {
+				padding-top: 4px;
+				padding-bottom: 4px;
 			}
 
-			#account-selector li {
-				padding: 8px;
-				display: flex;
-				align-items: center;
-				background: red;
+			.avatar-big {
+				width: 60px;
+				height: 60px;
+				background-size: cover;
+				background-position: center;
+				border-radius: 50%;
+				display: inline-block;
 			}
 
-			#account-selector li:hover {
-				background: rgba(0,0,0,0.2);
-			}
-
-			#account-selector .avatar {
-				margin: 0 12px 0 5px;
-				background: #eee;
-			}
-
-			#account-selector .avatar svg {
-				width: 100%;
-				height: 100%;
-				fill: #999;
+			.avatar {
+				display: inline-block;
+				box-sizing: border-box;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background: url('/img/profile.png');
+				background-size: cover;
+				background-position: center;
 			}
 
 			drawer-page-list {
@@ -189,20 +172,14 @@ class TodoApp extends connect(store)(LitElement) {
 					</div>
 				</div>
 				<drawer-page-list .pages="${this._pages}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
-				<ul id="account-selector" ?hidden="${!this._accountSelectorOpened}">
+				<div role="listbox" id="account-selector" ?hidden="${!this._accountSelectorOpened}">
 					${this._accounts.map(account => html`
-						<li>
-							<div class="avatar">
-								${personIcon}
-							</div>
+						<paper-icon-item>
+							<div class="avatar" slot="item-icon"></div>
 							${account.name}
-						</li>
+						</paper-icon-item>
 					`)}
-					<li>
-						Add account
-					</li>
-				</ul>
-
+				</div>
 			</app-drawer>
 
 			<view-container .pages="${this._pages}" .page="${this._page}"></view-container>
