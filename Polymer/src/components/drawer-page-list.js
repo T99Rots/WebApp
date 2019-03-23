@@ -7,18 +7,16 @@ class DrawerPageList extends LitElement {
 				box-sizing: border-box;
 				width: 100%;
 				height: 100%;
-				background: var(--drawer-list-background, white);
 				position: relative;
-				margin-top: 14px;
+				margin-top: 10px;
 			}
 			.drawer-list > a {
 				display: block;
 				text-decoration: none;
-				color: var(--drawer-list-text-color);
+				color: var(--page-list-color);
 				padding: 11px;
 				margin: 8px;
 				font-weight: 600;
-				border-radius: 5px;
 			}
 			.drawer-list > a > svg {
 				vertical-align: middle;
@@ -26,8 +24,21 @@ class DrawerPageList extends LitElement {
 				fill: currentColor;
 			}
 			.drawer-list > a[selected] {
-				color: var(--drawer-list-selected-color, #39843c);
-				background: var(--drawer-list-selected-background, rgba(76,175,80,0.2));
+				color: var(--page-list-selected-color,#3f51b5);
+				z-index: 2;
+				position: relative;
+			}
+			.drawer-list > a[selected]::before {
+				border-radius: 5px;
+				z-index: -1;
+				content: "";
+				position: absolute;
+				top: 0; 
+				left: 0;
+				width: 100%; 
+				height: 100%;   
+				background: var(--page-list-selected-color, #3f51b5);
+				opacity: .3;
 			}
 		`
 	}

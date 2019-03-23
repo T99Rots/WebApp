@@ -7,7 +7,8 @@ import { updateMetadata } from 'pwa-helpers/metadata';
 import {
 	navigate,
 	updateDrawerState,
-	toggleAccountSelector
+	toggleAccountSelector,
+	toggleDrawer
 } from '../actions/app'
 import { store } from '../store';
 
@@ -16,9 +17,12 @@ import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
-import '@polymer/paper-item/paper-icon-item';
+import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
+import '@polymer/app-layout/app-header-layout/app-header-layout';
 import '../components/drawer-page-list';
 import '../components/view-container';
+import '../components/drawer-account-list';
+
 import { dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
 
 import { menuIcon } from '../components/icons';
@@ -30,30 +34,43 @@ class TodoApp extends connect(store)(LitElement) {
 		return css`
 			:host {
 				display: block;
+				min-height: 100vh;
+				background: white;
 
-				--app-primary-color: #212121;
+				--app-primary-color: #039be5;
 				--secondary-color: #4caf50;
 
-				--app-light-background: white;
-				--app-medium-background: #E1E2E1;
-				--app-dark-background: #E1E2E1;
-
-				--app-light-text-color: white;
-				--app-dark-text-color: var(--app-primary-color);
-
-				--app-header-background-color: var(--app-primary-color);
-				--app-header-text-color: var(--app-light-text-color);
-
-				--app-drawer-background-color: var(--app-medium-background);
-				--app-drawer-text-color: var(--app-dark-text-color);
-			}
-
-			:host([theme="dark"]) {
 				--app-light-background: #424242;
 				--app-medium-background: #303030;
 				--app-dark-background: #212121;
 
+				--app-light-text-color: white;
+				--app-dark-text-color: black;
+
+				--app-header-background-color: var(--app-medium-background);
+				--app-header-text-color: var(--app-light-text-color);
+
+				--app-drawer-header-background: url('/img/background.svg');
+				--app-drawer-background-color: var(--app-medium-background);
 				--app-drawer-text-color: var(--app-light-text-color);
+				--drawer-divider-color: var(--app-medium-background);
+
+				--page-list-selected-color: var(--app-primary-color);
+			}
+
+			:host([theme="dark"]) {
+				background: var(--app-medium-background);
+				--app-primary-color: #7e57c2;
+
+				--app-header-background-color: var(--app-dark-background);
+				--app-header-text-color: var(--app-light-text-color);
+
+				--app-drawer-text-color: var(--app-light-text-color);
+				--app-drawer-header-background: url('/img/background-dark.svg');
+				--app-drawer-background-color: var(--app-dark-background);
+				--drawer-divider-color: var(--app-medium-background);
+
+				--page-list-selected-color: var(--app-primary-color);
 			}
 
 			[hidden] {
@@ -67,7 +84,23 @@ class TodoApp extends connect(store)(LitElement) {
 				width: 100%;
 				background: var(--app-header-background-color);
 				color: var(--app-header-text-color);
-				z-index: 9;
+			}
+
+			#title {
+				font-weight: 500;
+				margin: 0;
+				font-size: 26px;
+				margin-left: 24px;
+			}
+
+			#menu-btn {
+				display: none;
+				fill: var(--app-header-text-color);
+			}
+
+			#menu-btn svg {
+				width: 24px;
+				height: 24px;
 			}
 
 			button {
@@ -80,22 +113,26 @@ class TodoApp extends connect(store)(LitElement) {
 				outline: none;
 			}
 
-			app-drawer {
-				z-index: 10;
+			#drawer-content {
 				background: var(--app-drawer-background-color);
 				color: var(--app-drawer-text-color);
+				height: 100%;
+				user-select: none;
 			}
 
 			#drawer-header {
 				padding: 0 15px 18px 15px;
-				border-bottom: 1px solid #eee;
+				border-bottom: 1px solid var(--drawer-divider-color);
 				cursor: pointer;
+				background: var(--app-drawer-header-background);
+				background-size: cover;
+				color: white;
 			}
 
 			#profile-picture-container {
 				display: flex;
 				align-items: center;
-				height: 100px;
+				height: 133px;
 			}
 
 			#drawer-header h2 , p {
@@ -106,11 +143,7 @@ class TodoApp extends connect(store)(LitElement) {
 				float: right;
 				position: relative;
 				top: -30px;
-			}
-
-			#account-selector paper-icon-item {
-				padding-top: 4px;
-				padding-bottom: 4px;
+				fill: currentColor;
 			}
 
 			.avatar-big {
@@ -122,23 +155,14 @@ class TodoApp extends connect(store)(LitElement) {
 				display: inline-block;
 			}
 
-			.avatar {
-				display: inline-block;
-				box-sizing: border-box;
-				width: 40px;
-				height: 40px;
-				border-radius: 50%;
-				background: url('/img/profile.png');
-				background-size: cover;
-				background-position: center;
-			}
-
 			drawer-page-list {
-				margin-top: 5px;
+				margin-top: 3 px;
 			}
 
-			app-header svg {
-				fill: var(--app-header-text-color);
+			view-container {
+				width: calc(100% - 1px);
+				width: 100%;
+				border-left: none;
 			}
 
 			@media (min-width: 377.8px) {
@@ -146,49 +170,59 @@ class TodoApp extends connect(store)(LitElement) {
           --app-drawer-width: 340px;
         }
 			}
+
+			@media (max-width: 1150px) {
+        #menu-btn {
+					display: block;
+				}
+				:host([theme="dark"]) view-container {
+					width: 100%;
+					border-left: none;
+				}
+			}
 		`
 	}
 
 	render() {
 		return html`
-			<app-header condenses reveals effects="waterfall">
-				<app-toolbar>
-					<button @click="${this._menuButtonClicked}">${menuIcon}</button>
-					<h1>Todo App</h1>
-				</app-toolbar>
-			</app-header>
+			<app-drawer-layout .responsiveWidth="${"1150px"}">
 
-			<app-drawer 
-				.opened=${this._drawerOpened || true}
-				@opened-changed=${this._drawerOpenedChanged}>
-				<div id="drawer-header" @click="${() => store.dispatch(toggleAccountSelector)}">
-					<div id="profile-picture-container">
-						<div class="avatar avatar-big" style="background-image: url('/img/woman.jpg')"></div>
+				<app-drawer
+					slot="drawer"
+					.opened="${this._drawerOpened}"
+					@opened-changed=${this._drawerOpenedChanged}>
+					<div id="drawer-content">
+						<div id="drawer-header" @click="${() => store.dispatch(toggleAccountSelector)}">
+							<div id="profile-picture-container">
+								<div class="avatar avatar-big" style="background-image: url('/img/woman.jpg')"></div>
+							</div>
+							<h2>George Johnson</h2>
+							<p>george.johnson@gmail.com</p>
+							<div id="account-selection-indicator">
+								${this._accountSelectorOpened? dropUpIcon: dropDownIcon}
+							</div>
+						</div>
+						<drawer-page-list .pages="${this._pages}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
+						<drawer-account-list .accounts="${this._accounts}" ?hidden="${!this._accountSelectorOpened}"></drawer-account-list>
 					</div>
-					<h2>George Johnson</h2>
-					<p>george.johnson@gmail.com</p>
-					<div id="account-selection-indicator">
-						${this._accountSelectorOpened? dropUpIcon: dropDownIcon}
-					</div>
-				</div>
-				<drawer-page-list .pages="${this._pages}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
-				<div role="listbox" id="account-selector" ?hidden="${!this._accountSelectorOpened}">
-					${this._accounts.map(account => html`
-						<paper-icon-item>
-							<div class="avatar" slot="item-icon"></div>
-							${account.name}
-						</paper-icon-item>
-					`)}
-				</div>
-			</app-drawer>
+				</app-drawer>
 
-			<view-container .pages="${this._pages}" .page="${this._page}"></view-container>
-			<h1>test</h1>
+				<app-header-layout>
+					<app-header condenses reveals effects="waterfall" slot="header">
+						<app-toolbar>
+							<button @click="${this._menuButtonClicked}" id="menu-btn">${menuIcon}</button>
+							<h1 id="title">Todo App</h1>
+						</app-toolbar>
+					</app-header>
+
+					<view-container .pages="${this._pages}" .page="${this._page}"></view-container>
+				</app-header-layout>
+			</app-drawer-layout>
 		`
 	}
 
 	_menuButtonClicked() {
-		store.dispatch(updateDrawerState(true));
+		store.dispatch(toggleDrawer());
 	}
 
 	_drawerOpenedChanged(e) {

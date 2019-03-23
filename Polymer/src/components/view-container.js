@@ -4,6 +4,9 @@ import './page-view-element';
 class ViewContainer extends LitElement {
 	static get styles () {
 		return css`
+			:host {
+				display: block;
+			}
 			.page {
 				display: none;
 			}

@@ -7,13 +7,21 @@ export const navigate = (path) => (dispatch, getState) => {
 }
 
 export const updateDrawerState = state => (dispatch, getState) => {
-	const currentState = getState().app.drawerOpened;
-	if(state !== currentState) {
+	const {drawerOpened, accountSelectorOpened} = getState().app;
+	if(state !== drawerOpened) {
 		dispatch({
 			type: DRAWER_STATE_UPDATE,
 			state
-		});	
+		});
+		if(state&&accountSelectorOpened) {
+			dispatch(toggleAccountSelector);
+		}
 	}
+}
+
+export const toggleDrawer = () => (dispatch, getState) => {
+	const { drawerOpened } = getState().app;
+	dispatch(updateDrawerState(!drawerOpened));
 }
 
 export const toggleAccountSelector = {
