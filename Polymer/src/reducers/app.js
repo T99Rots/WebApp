@@ -4,14 +4,11 @@ import {
 	TOGGLE_ACCOUNT_SELECTOR
 } from '../actions/app';
 
+import { router } from '../routes';
 
 const initialState = {
-	pages,
-	page: {
-		drawer: true,
-		header: true,
-		title: 'Loading...'
-	},
+	pages: router.resolveAll(),
+	page: router.activePage,
 	drawerOpened: false,
 	accountSelectorOpened: false
 }

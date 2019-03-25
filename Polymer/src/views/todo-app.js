@@ -1,6 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
-import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { router } from '../routes';
 
@@ -210,7 +209,7 @@ class TodoApp extends connect(store)(LitElement) {
 								${this._accountSelectorOpened? dropUpIcon: dropDownIcon}
 							</div>
 						</div>
-						<drawer-page-list .pageConfig="${this._pages}" .page="${this._page.id}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
+						<drawer-page-list .pages="${this._pages}" .page="${this._page.id}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
 						<drawer-account-list .accounts="${this._accounts}" ?hidden="${!this._accountSelectorOpened}"></drawer-account-list>
 					</div>
 				</app-drawer>
@@ -234,7 +233,7 @@ class TodoApp extends connect(store)(LitElement) {
 						</app-toolbar>
 					</app-header>
 
-					<view-container .pageConfig="${this._pages}" .page="${this._page.id}"></view-container>
+					<view-container .pages="${this._pages}" .page="${this._page.id}"></view-container>
 				</app-header-layout>
 			</app-drawer-layout>
 		`
@@ -252,6 +251,8 @@ class TodoApp extends connect(store)(LitElement) {
 		router.addEventListener('pagechange', e => {
 			navigate(e.page);
 		})
+		console.log(router.activePage);
+		console.log(router.resolveAll())
 	}
 
 	updated(changedProps) {

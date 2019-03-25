@@ -54,7 +54,7 @@ class DrawerPageList extends LitElement {
 		console.log(this.pages);
 		const elements = [];
 		
-		if(this.pageConfig) {
+		if(this.pages) {
 			for(const [route, page] of Object.entries(this.pageConfig.pages)) {
 				const getProperty = (propertyName) => {
 					let property;
@@ -97,7 +97,7 @@ class DrawerPageList extends LitElement {
 
   static get properties () {
     return {
-      pageConfig: Object,
+      pages: Array,
       page: Object
     };
   }

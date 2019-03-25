@@ -1,4 +1,4 @@
-import { Router, defaultScript, defaultTitle } from 'schema-router';
+import { Router, defaultScript, defaultTitle } from './schema-router/router';
 
 import {
 	dashboardIcon,
@@ -16,7 +16,7 @@ const router = new Router({
 		search: false
   },
   root: {
-    redirect: '/dashboard'
+    redirect: '/todo'
   },
   404: {
     script: 'page-404.js',
@@ -26,7 +26,17 @@ const router = new Router({
   },
   pages: {
 		todo: {
-			id: 'todo'
+			id: 'todo',
+			subPages: {
+				all: {
+					id: 'all',
+					title: 'All todo\'s'
+				},
+				shared: {
+					id: 'shared',
+					title: 'Shared with me'
+				}
+			}
 		},
 		completed: {
 			id: 'completed'
@@ -50,3 +60,5 @@ export {
 	router,
 	navigate
 }
+
+'/todo\'s/shared'

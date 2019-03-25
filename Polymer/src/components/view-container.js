@@ -76,7 +76,7 @@ class ViewContainer extends LitElement {
 
   static get properties () {
     return {
-			pageConfig: Object,
+			pages: Object,
 			page: String
     };
   }
