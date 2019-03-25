@@ -2,6 +2,7 @@ import { html, css, LitElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { installRouter } from 'pwa-helpers/router';
 import { updateMetadata } from 'pwa-helpers/metadata';
+import { router } from '../routes';
 
 //importing the actions required by this app
 import {
@@ -248,7 +249,9 @@ class TodoApp extends connect(store)(LitElement) {
 	}
 
 	firstUpdated() {
-		installRouter(location => store.dispatch(navigate(decodeURIComponent(location.pathname))));
+		router.addEventListener('pagechange', e => {
+			navigate(e.page);
+		})
 	}
 
 	updated(changedProps) {

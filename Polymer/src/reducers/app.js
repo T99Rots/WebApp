@@ -4,7 +4,6 @@ import {
 	TOGGLE_ACCOUNT_SELECTOR
 } from '../actions/app';
 
-import pages from '../routes';
 
 const initialState = {
 	pages,
