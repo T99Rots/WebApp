@@ -17,43 +17,58 @@ class ViewContainer extends LitElement {
 	} 
 
   render () {
-		const getTagNames = (pages) => {
-      const arr = [];
-      const checkTag = (page) => {
-        if (!('id' in page || 'tagName' in page)) return;
-        arr.push(page.tagName || `${page.id}-page`);
-      };
-      const subTags = (subPages) => {
-        Object.keys(subPages).forEach((a) => {
-          checkTag(subPages[a]);
-          if ('subPages' in subPages[a]) subTags(subPages[a].subPages);
-        });
-      };
-      checkTag(pages['404']);
-      checkTag(pages.root);
-      subTags(pages.pages);
-      return arr;
-    };
+		const getElement = (page) => {
+			const getProperty = (propertyName) => {
+				let property;
+				if(propertyName in page) {
+					property = page[propertyName];
+				} else if (propertyName in this.pageConfig.default) {
+					property = this.pageConfig.default[propertyName];
+				}
+				if(typeof property === 'function') {
+					property = property(page);
+				}
+				return property;
+			}
+			
+			const redirect = getProperty('redirect');
+			const id = page.id;
 
-		const tagNames = getTagNames(this.pages);
+			if(!redirect && id) {
+				const tagName = getProperty('tagName');
+				let element;
+	
+				if(id in this._pageElements) {
+					element = this._pageElements[id];
+				} else {
+					element = document.createElement(tagName);
+					element.className = 'page';
+					this._pageElements[id] = element;
+				}
+	
+				if(this.page === id) {
+					element.setAttribute('active', '');
+				} else {
+					element.removeAttribute('active');
+				}
+	
+				if('subPages' in page) {
+					getElements(page.subPages);
+				}
+			}
 
-    for (const tagName of tagNames) {
-      let elem;
-      if (!(tagName in this._pageElements)) {
-        this._pageElements[tagName] = document.createElement(tagName);
-        elem = this._pageElements[tagName];
-        elem.className = 'page';
-      }
-      else {
-        elem = this._pageElements[tagName];
-      }
-      if (tagName === this.page.tagName) {
-        elem.setAttribute('active', '');
-      }
-      else {
-        elem.removeAttribute('active');
-      }
-    }
+		}
+
+		const getElements = (pages) => {
+			for(const page of Object.values(pages)) getElement(page);
+		}
+
+		if(this.pageConfig) {
+			getElements(this.pageConfig.pages);
+			getElement(this.pageConfig.root);
+			getElement(this.pageConfig['404']);	
+		}
+
     return html`
       ${Object.values(this._pageElements)}
     `;
@@ -61,8 +76,8 @@ class ViewContainer extends LitElement {
 
   static get properties () {
     return {
-			pages: Object,
-			page: Object
+			pageConfig: Object,
+			page: String
     };
   }
 

@@ -4,7 +4,7 @@ import {
 	TOGGLE_ACCOUNT_SELECTOR
 } from '../actions/app';
 
-import pages from '../page-config';
+import pages from '../routes';
 
 const initialState = {
 	pages,
@@ -21,7 +21,8 @@ const app = (state = initialState, action) => {
 	switch(action.type) {
 		case NAVIGATE:
 			return {
-				...state
+				...state,
+				page: action.page
 			}
 		case DRAWER_STATE_UPDATE:
 			return {

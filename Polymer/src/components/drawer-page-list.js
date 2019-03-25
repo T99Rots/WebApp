@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import '@polymer/paper-button';
 
 class DrawerPageList extends LitElement {
 	static get styles () {
@@ -13,22 +14,28 @@ class DrawerPageList extends LitElement {
 			.drawer-list > a {
 				display: block;
 				text-decoration: none;
-				color: var(--page-list-color);
-				padding: 11px;
-				margin: 8px;
-				font-weight: 600;
 			}
-			.drawer-list > a > svg {
+			paper-button {
+				color: var(--page-list-color, black);
+				font-weight: 600;
+				display: flex;
+				justify-content: left;
+				border-radius: 5px;
+				margin: 4px 8px;
+				text-transform: none;
+			}
+			paper-button svg {
 				vertical-align: middle;
-				padding-right: 30px;
+				margin-right: 20px;
+				margin-left: 3px;
 				fill: currentColor;
 			}
-			.drawer-list > a[selected] {
+			paper-button[selected] {
 				color: var(--page-list-selected-color,#3f51b5);
 				z-index: 2;
 				position: relative;
 			}
-			.drawer-list > a[selected]::before {
+			paper-button[selected]::before {
 				border-radius: 5px;
 				z-index: -1;
 				content: "";
@@ -45,34 +52,52 @@ class DrawerPageList extends LitElement {
 
   render () {
 		console.log(this.pages);
-    const elems = [];
-    for (const k in this.pages) {
-      if (!this.pages[k].hidden) {
-				const page = this.pages[k];
-				let icon = this.pages[k].icon;
-				let title = this.pages[k].title;
-				if(typeof icon == 'function') icon = icon(this.pages[k]);
-				if(typeof title == 'function') title = title(this.pages[k]);
-				
-        elems.push(
-          html`<a ?selected="${this.page && this.page.url.replace(/^\/+/, '').startsWith(k)}"
-            href="/${k}">${icon}${title}</a>`
-        );
-      }
-    }
+		const elements = [];
+		
+		if(this.pageConfig) {
+			for(const [route, page] of Object.entries(this.pageConfig.pages)) {
+				const getProperty = (propertyName) => {
+					let property;
+					if(propertyName in page) {
+						property = page[propertyName];
+					} else if (propertyName in this.pageConfig.default) {
+						property = this.pageConfig.default[propertyName];
+					}
+					if(typeof property === 'function') {
+						property = property(page);
+					}
+					return property;
+				}
+				const hidden = getProperty('hidden');
+	
+				if(!hidden) {
+					const icon = getProperty('icon');
+					const title = getProperty('title');
+		
+					elements.push(
+						html`
+							<a href="/${route}">
+								<paper-button ?selected="${this.page === page.id}">
+									${icon}
+									${title}
+								</paper-button>
+							</a>
+						`
+					);
+				}
+			}
+		}
+
     return html`
       <div class="drawer-list">
-				<a href="#" class="page" selected>Home</a>
-				<a href="#" class="page">Dashboard</a>
-				<a href="#" class="page" selected>Todo's</a>
-				<a href="#" class="page">About</a>
+				${elements}
       </div>
     `;
   }
 
   static get properties () {
     return {
-      pages: Object,
+      pageConfig: Object,
       page: Object
     };
   }

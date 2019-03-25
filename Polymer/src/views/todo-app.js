@@ -19,13 +19,13 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
 import '@polymer/app-layout/app-header-layout/app-header-layout';
+import '@polymer/paper-button';
 import '../components/drawer-page-list';
 import '../components/view-container';
 import '../components/drawer-account-list';
+import '../components/paper-badge';
 
-import { dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
-
-import { menuIcon } from '../components/icons';
+import { menuIcon, notificationIcon, dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
 
 //the main custom element
 class TodoApp extends connect(store)(LitElement) {
@@ -56,6 +56,7 @@ class TodoApp extends connect(store)(LitElement) {
 				--drawer-divider-color: var(--app-medium-background);
 
 				--page-list-selected-color: var(--app-primary-color);
+				--page-list-color: var(--app-light-text-color);
 			}
 
 			:host([theme="dark"]) {
@@ -78,24 +79,36 @@ class TodoApp extends connect(store)(LitElement) {
 			}
 
 			app-header {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
 				background: var(--app-header-background-color);
 				color: var(--app-header-text-color);
 			}
 
-			#title {
-				font-weight: 500;
-				margin: 0;
-				font-size: 26px;
-				margin-left: 24px;
+			app-toolbar {
+				justify-content: space-between;
 			}
 
-			#menu-btn {
-				display: none;
+			app-toolbar svg {
 				fill: var(--app-header-text-color);
+			}
+
+			#left-header-container {
+				display: flex;
+			}
+
+			.icon-btn {
+				min-width: 0;
+				min-height: 0;
+				border-radius: 50%;
+				height: 48px;
+				width: 48px;
+			}
+
+			[main-title] {
+				font-weight: 500;
+				font-size: 26px;
+				line-height: 48px;
+				margin: 0;
+				margin-left: 5px;
 			}
 
 			#menu-btn svg {
@@ -160,9 +173,7 @@ class TodoApp extends connect(store)(LitElement) {
 			}
 
 			view-container {
-				width: calc(100% - 1px);
-				width: 100%;
-				border-left: none;
+				width: 100%;				
 			}
 
 			@media (min-width: 377.8px) {
@@ -171,13 +182,9 @@ class TodoApp extends connect(store)(LitElement) {
         }
 			}
 
-			@media (max-width: 1150px) {
-        #menu-btn {
-					display: block;
-				}
-				:host([theme="dark"]) view-container {
-					width: 100%;
-					border-left: none;
+			@media (min-width: 1151px) {
+				#menu-btn {
+					display: none;
 				}
 			}
 		`
@@ -194,7 +201,7 @@ class TodoApp extends connect(store)(LitElement) {
 					<div id="drawer-content">
 						<div id="drawer-header" @click="${() => store.dispatch(toggleAccountSelector)}">
 							<div id="profile-picture-container">
-								<div class="avatar avatar-big" style="background-image: url('/img/woman.jpg')"></div>
+								<div class="avatar avatar-big" style="background-image: url('/img/dude.jpg')"></div>
 							</div>
 							<h2>George Johnson</h2>
 							<p>george.johnson@gmail.com</p>
@@ -202,7 +209,7 @@ class TodoApp extends connect(store)(LitElement) {
 								${this._accountSelectorOpened? dropUpIcon: dropDownIcon}
 							</div>
 						</div>
-						<drawer-page-list .pages="${this._pages}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
+						<drawer-page-list .pageConfig="${this._pages}" .page="${this._page.id}" ?hidden="${this._accountSelectorOpened}"></drawer-page-list>
 						<drawer-account-list .accounts="${this._accounts}" ?hidden="${!this._accountSelectorOpened}"></drawer-account-list>
 					</div>
 				</app-drawer>
@@ -210,12 +217,23 @@ class TodoApp extends connect(store)(LitElement) {
 				<app-header-layout>
 					<app-header condenses reveals effects="waterfall" slot="header">
 						<app-toolbar>
-							<button @click="${this._menuButtonClicked}" id="menu-btn">${menuIcon}</button>
-							<h1 id="title">Todo App</h1>
+							<div id="left-header-container">
+								<paper-button id="menu-btn" class="icon-btn" @click="${this._menuButtonClicked}">
+									${menuIcon}
+								</paper-button>
+								<h1 main-title>${this._page.title}</h1>
+							</div>
+							<div id="right-header-container">
+								<paper-button class="icon-btn">
+									<paper-badge disabled label="5">
+										${notificationIcon}
+									</paper-badge>
+								</paper-button>
+							</div>
 						</app-toolbar>
 					</app-header>
 
-					<view-container .pages="${this._pages}" .page="${this._page}"></view-container>
+					<view-container .pageConfig="${this._pages}" .page="${this._page.id}"></view-container>
 				</app-header-layout>
 			</app-drawer-layout>
 		`
@@ -230,13 +248,13 @@ class TodoApp extends connect(store)(LitElement) {
 	}
 
 	firstUpdated() {
-		// installRouter(location => store.dispatch(navigate(decodeURIComponent(location.pathname))));
+		installRouter(location => store.dispatch(navigate(decodeURIComponent(location.pathname))));
 	}
 
 	updated(changedProps) {
 		if(changedProps.has('_page')) {
 			updateMetadata({
-				title: this._page.title,
+				title: `Todo App - ${this._page.title}`,
 				description: this._page.title
 			})
 		}
@@ -253,19 +271,19 @@ class TodoApp extends connect(store)(LitElement) {
 
 	stateChanged(state) {
 		this._page = state.app.page;
-		this._drawerOpened = state.app.drawerOpened;
 		this._pages = state.app.pages;
+		this._drawerOpened = state.app.drawerOpened;
 		this._accountSelectorOpened = state.app.accountSelectorOpened;
 		this._accounts = [
 			{
 				name: 'Jack Benton',
 				email: 'jackyboii@gmail.com',
-				avatar: '/img/woman.jpg'
+				avatar: '/img/dude.jpg'
 			},
 			{
 				name: 'Bli A',
 				email: 'youwotm9@gmail.com',
-				avatar: '/img/woman.jpg'
+				avatar: '/img/dude.jpg'
 			},
 			{
 				name: 'Katie Jackson',
