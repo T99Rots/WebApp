@@ -51,41 +51,17 @@ class DrawerPageList extends LitElement {
 	}
 
   render () {
-		console.log(this.pages);
-		const elements = [];
-		
-		if(this.pages) {
-			for(const [route, page] of Object.entries(this.pageConfig.pages)) {
-				const getProperty = (propertyName) => {
-					let property;
-					if(propertyName in page) {
-						property = page[propertyName];
-					} else if (propertyName in this.pageConfig.default) {
-						property = this.pageConfig.default[propertyName];
-					}
-					if(typeof property === 'function') {
-						property = property(page);
-					}
-					return property;
-				}
-				const hidden = getProperty('hidden');
-	
-				if(!hidden) {
-					const icon = getProperty('icon');
-					const title = getProperty('title');
-		
-					elements.push(
-						html`
-							<a href="/${route}">
-								<paper-button ?selected="${this.page === page.id}">
-									${icon}
-									${title}
-								</paper-button>
-							</a>
-						`
-					);
-				}
-			}
+		let elements;
+
+		if(Array.isArray(this.pages)) {
+			elements = this.pages.filter(page => !page.hidden && page.route && page.route.split('/').length < 3).map(page => html`
+				<a href="${page.route}">
+					<paper-button ?selected="${this.page === page.id}">
+						${page.icon}
+						${page.title}
+					</paper-button>
+				</a>
+			`)
 		}
 
     return html`

@@ -19,13 +19,15 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
 import '@polymer/app-layout/app-header-layout/app-header-layout';
+import '@polymer/paper-menu-button';
 import '@polymer/paper-button';
 import '../components/drawer-page-list';
 import '../components/view-container';
 import '../components/drawer-account-list';
 import '../components/paper-badge';
+import '../components/notifications-button';
 
-import { menuIcon, notificationIcon, dropDownIcon, dropUpIcon, personIcon } from '../components/icons';
+import { menuIcon, dropDownIcon, dropUpIcon } from '../components/icons';
 
 //the main custom element
 class TodoApp extends connect(store)(LitElement) {
@@ -35,7 +37,7 @@ class TodoApp extends connect(store)(LitElement) {
 			:host {
 				display: block;
 				min-height: 100vh;
-				background: white;
+				background: #f8f9fa;
 
 				--app-primary-color: #039be5;
 				--secondary-color: #4caf50;
@@ -224,16 +226,12 @@ class TodoApp extends connect(store)(LitElement) {
 								<h1 main-title>${this._page.title}</h1>
 							</div>
 							<div id="right-header-container">
-								<paper-button class="icon-btn">
-									<paper-badge disabled label="5">
-										${notificationIcon}
-									</paper-badge>
-								</paper-button>
+								<notifications-button></notifications-button>
 							</div>
 						</app-toolbar>
 					</app-header>
 
-					<view-container .pages="${this._pages}" .page="${this._page.id}"></view-container>
+					<view-container .page="${this._page}"></view-container>
 				</app-header-layout>
 			</app-drawer-layout>
 		`
@@ -249,10 +247,9 @@ class TodoApp extends connect(store)(LitElement) {
 
 	firstUpdated() {
 		router.addEventListener('pagechange', e => {
-			navigate(e.page);
+			store.dispatch(navigate(e.page));
 		})
-		console.log(router.activePage);
-		console.log(router.resolveAll())
+		store.dispatch(navigate(router.activePage));
 	}
 
 	updated(changedProps) {

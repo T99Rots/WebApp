@@ -6,67 +6,32 @@ class ViewContainer extends LitElement {
 		return css`
 			:host {
 				display: block;
+				position: relative;
 			}
-			.page {
+			:host > * {
 				display: none;
 			}
-			.page[active] {
+			:host > *[active] {
 				display: block;
 			}
 		`
 	} 
 
   render () {
-		const getElement = (page) => {
-			const getProperty = (propertyName) => {
-				let property;
-				if(propertyName in page) {
-					property = page[propertyName];
-				} else if (propertyName in this.pageConfig.default) {
-					property = this.pageConfig.default[propertyName];
-				}
-				if(typeof property === 'function') {
-					property = property(page);
-				}
-				return property;
-			}
-			
-			const redirect = getProperty('redirect');
-			const id = page.id;
+		if(this.page && !(this.page.tagName in this._pageElements) && this.page.tagName) {
+			this._pageElements[this.page.tagName] = document.createElement(this.page.tagName);
+		}
 
-			if(!redirect && id) {
-				const tagName = getProperty('tagName');
-				let element;
-	
-				if(id in this._pageElements) {
-					element = this._pageElements[id];
-				} else {
-					element = document.createElement(tagName);
-					element.className = 'page';
-					this._pageElements[id] = element;
+		for(const [tagName, element] of Object.entries(this._pageElements)) {
+			if(tagName === this.page.tagName) {
+				if(!element.hasAttribute('active')) {
+					element.setAttribute('active','');
 				}
-	
-				if(this.page === id) {
-					element.setAttribute('active', '');
-				} else {
+			} else {
+				if(element.hasAttribute('active')) {
 					element.removeAttribute('active');
 				}
-	
-				if('subPages' in page) {
-					getElements(page.subPages);
-				}
 			}
-
-		}
-
-		const getElements = (pages) => {
-			for(const page of Object.values(pages)) getElement(page);
-		}
-
-		if(this.pageConfig) {
-			getElements(this.pageConfig.pages);
-			getElement(this.pageConfig.root);
-			getElement(this.pageConfig['404']);	
 		}
 
     return html`
@@ -76,13 +41,12 @@ class ViewContainer extends LitElement {
 
   static get properties () {
     return {
-			pages: Object,
-			page: String
+			page: Object
     };
   }
 
   constructor () {
-    super();
+		super();
     this._pageElements = {};
   }
 }

@@ -3,7 +3,7 @@ export const DRAWER_STATE_UPDATE = 'DRAWER_STATE_UPDATE';
 export const TOGGLE_ACCOUNT_SELECTOR = 'TOGGLE_ACCOUNT_SELECTOR';
 
 export const navigate = (page) => (dispatch, getState) => {
-	import(`/views/${page.script}`);
+	import(`../views/${page.script}`);
 
 	dispatch({
 		type: NAVIGATE,

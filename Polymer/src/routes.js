@@ -1,49 +1,58 @@
 import { Router, defaultScript, defaultTitle } from './schema-router/router';
 
 import {
-	dashboardIcon,
-	notInterestedIcon
+	notInterestedIcon,
+	inboxIcon,
+	todayIcon,
+	dateRangeIcon,
+	labelIcon,
+	settingsIcon
 } from './components/icons';
 
-const router = new Router({
+const router = window.router = new Router({
   default: {
     title: defaultTitle,
     script: defaultScript,
 		tagName: a => a.id ? `${a.id}-page` : false,
-		icon: notInterestedIcon,
-    drawer: true,
-    header: true,
-		search: false
+		icon: notInterestedIcon
   },
   root: {
-    redirect: '/todo'
+    redirect: '/inbox'
   },
   404: {
-    script: 'page-404.js',
     tagName: 'page-404',
     id: '404',
     title: 'Page not found'
   },
   pages: {
-		todo: {
-			id: 'todo',
-			subPages: {
-				all: {
-					id: 'all',
-					title: 'All todo\'s'
-				},
-				shared: {
-					id: 'shared',
-					title: 'Shared with me'
-				}
-			}
+		inbox: {
+			id: 'inbox',
+			template: 'todoList',
+			icon: inboxIcon
 		},
-		completed: {
-			id: 'completed'
+		today: {
+			id: 'today',
+			template: 'todoList',
+			icon: todayIcon
 		},
-		shared: {
-			id: 'shared',
-			title: 'Shared with me'
+		week: {
+			id: 'week',
+			title: 'Next 7 days',
+			template: 'todoList',
+			icon: dateRangeIcon
+		},
+		projects: {
+			id: 'projects',
+			template: 'todoList'
+		},
+		labels: {
+			id: 'labels',
+			template: 'todoList',
+			icon: labelIcon
+		},
+		settings: {
+			id: 'settings',
+			icon: settingsIcon
 		}
 	},
 	templates: {
@@ -60,5 +69,3 @@ export {
 	router,
 	navigate
 }
-
-'/todo\'s/shared'

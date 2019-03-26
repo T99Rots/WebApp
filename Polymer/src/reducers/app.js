@@ -8,7 +8,9 @@ import { router } from '../routes';
 
 const initialState = {
 	pages: router.resolveAll(),
-	page: router.activePage,
+	page: {
+		title: 'Loading...'
+	},
 	drawerOpened: false,
 	accountSelectorOpened: false
 }

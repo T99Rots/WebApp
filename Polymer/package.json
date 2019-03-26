@@ -10,17 +10,19 @@
   "license": "ISC",
   "dependencies": {
     "@polymer/app-layout": "^3.0.2",
-    "@polymer/iron-icon": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-fab": "^3.0.1",
-    "@polymer/paper-icon-button": "^3.0.2",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",
+    "@polymer/paper-material": "^3.0.1",
+    "@polymer/paper-menu-button": "^3.0.1",
+    "@webcomponents/webcomponentsjs": "^2.2.7",
     "lit-element": "^2.0.1",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "schema-router": "^1.0.2"
+    "schema-router": "git+https://github.com/T99Rots/schema-router.git",
+    "web-animations-js": "^2.3.1"
   },
   "devDependencies": {
     "polymer-cli": "^1.9.7"
