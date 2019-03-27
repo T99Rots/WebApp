@@ -24,7 +24,7 @@ class NotificationsButton extends connect(store)(LitElement) {
 				}
 				#content {
 					color: black;
-					width: 100vw;
+					width: 400px;
 				}
 			`
 		]
@@ -39,14 +39,36 @@ class NotificationsButton extends connect(store)(LitElement) {
 					</paper-badge>
 				</paper-button>
 				<div id="content" role="listbox" slot="dropdown-content">
-					<paper-item>Notification 1</paper-item>
-					<paper-item>Notification 2</paper-item>
-					<paper-item>Notification 3</paper-item>
-					<paper-item>Notification 4</paper-item>
-					<paper-item>Notification 5</paper-item>
-					<paper-item>Notification 6</paper-item>
-					<paper-item>Notification 7</paper-item>
-					<paper-item>Notification 8</paper-item>
+					<paper-item>
+						<paper-item-body two-line>
+							<div>Notification 1</div>
+							<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
+						</paper-item-body>
+					</paper-item>
+					<paper-item>
+						<paper-item-body two-line>
+							<div>Notification 2</div>
+							<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
+						</paper-item-body>
+					</paper-item>
+					<paper-item>
+						<paper-item-body two-line>
+							<div>Notification 3</div>
+							<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
+						</paper-item-body>
+					</paper-item>
+					<paper-item>
+						<paper-item-body two-line>
+							<div>Notification 4</div>
+							<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
+						</paper-item-body>
+					</paper-item>
+					<paper-item>
+						<paper-item-body two-line>
+							<div>Notification 5</div>
+							<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
+						</paper-item-body>
+					</paper-item>
 				</div>
 			</paper-menu-button>
 		`

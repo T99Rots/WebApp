@@ -56,6 +56,7 @@ class TodoApp extends connect(store)(LitElement) {
 				--app-drawer-background-color: var(--app-medium-background);
 				--app-drawer-text-color: var(--app-light-text-color);
 				--drawer-divider-color: var(--app-medium-background);
+				--app-drawer-width: 290px	;
 
 				--page-list-selected-color: var(--app-primary-color);
 				--page-list-color: var(--app-light-text-color);
