@@ -1,7 +1,8 @@
 import {
 	NAVIGATE,
 	DRAWER_STATE_UPDATE,
-	TOGGLE_ACCOUNT_SELECTOR
+	TOGGLE_ACCOUNT_SELECTOR,
+	UPDATE_DRAWER_LAYOUT
 } from '../actions/app';
 
 import { router } from '../routes';
@@ -26,6 +27,11 @@ const app = (state = initialState, action) => {
 			return {
 				...state,
 				drawerOpened: action.state
+			}
+		case UPDATE_DRAWER_LAYOUT:
+			return {
+				...state,
+				expandedDrawerLayout: action.expandedDrawerLayout
 			}
 		case TOGGLE_ACCOUNT_SELECTOR:
 			return {

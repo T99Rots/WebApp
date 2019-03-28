@@ -8,7 +8,6 @@ import '@polymer/paper-button';
 class TodoListPage extends PageViewElement {
 	static get styles() {
 		return [
-			sharedStyles,
 			css`
 				:host {
 					text-align: center;

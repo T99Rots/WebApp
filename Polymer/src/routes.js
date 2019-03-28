@@ -1,4 +1,4 @@
-import { Router, defaultScript, defaultTitle } from './schema-router/router';
+import { Router, defaultScript, defaultTitle } from 'schema-router';
 
 import {
 	notInterestedIcon,
@@ -14,7 +14,9 @@ const router = window.router = new Router({
     title: defaultTitle,
     script: defaultScript,
 		tagName: a => a.id ? `${a.id}-page` : false,
-		icon: notInterestedIcon
+		icon: notInterestedIcon,
+		header: true,
+		drawer: true
   },
   root: {
     redirect: '/inbox'
@@ -53,6 +55,12 @@ const router = window.router = new Router({
 		settings: {
 			id: 'settings',
 			icon: settingsIcon
+		},
+		login: {
+			id: 'login',
+			hidden: true,
+			header: false,
+			drawer: false
 		}
 	},
 	templates: {

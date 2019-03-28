@@ -1,6 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { updateMetadata } from 'pwa-helpers/metadata';
+import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
 import { router } from '../routes';
 
 //importing the actions required by this app
@@ -8,7 +9,8 @@ import {
 	navigate,
 	updateDrawerState,
 	toggleAccountSelector,
-	toggleDrawer
+	toggleDrawer,
+	updateDrawerLayout
 } from '../actions/app'
 import { store } from '../store';
 
@@ -195,16 +197,17 @@ class TodoApp extends connect(store)(LitElement) {
 
 	render() {
 		return html`
-			<app-drawer-layout .responsiveWidth="${"1150px"}">
+			<app-drawer-layout .responsiveWidth="${"1150px"}" .forceNarrow="${!this._page.drawer}">
 
 				<app-drawer
+					?hidden="${!this._page.drawer}"
 					slot="drawer"
 					.opened="${this._drawerOpened}"
 					@opened-changed=${this._drawerOpenedChanged}>
 					<div id="drawer-content">
 						<div id="drawer-header" @click="${() => store.dispatch(toggleAccountSelector)}">
 							<div id="profile-picture-container">
-								<div class="avatar avatar-big" style="background-image: url('/img/dude.jpg')"></div>
+								<div class="avatar avatar-big" style="background-image: url('/img/avatars/128_6.jpg')"></div>
 							</div>
 							<h2>George Johnson</h2>
 							<p>george.johnson@gmail.com</p>
@@ -218,7 +221,7 @@ class TodoApp extends connect(store)(LitElement) {
 				</app-drawer>
 
 				<app-header-layout>
-					<app-header condenses reveals effects="waterfall" slot="header">
+					<app-header condenses reveals effects="waterfall" slot="header" ?hidden="${!this._page.header}">
 						<app-toolbar>
 							<div id="left-header-container">
 								<paper-button id="menu-btn" class="icon-btn" @click="${this._menuButtonClicked}">
@@ -251,6 +254,7 @@ class TodoApp extends connect(store)(LitElement) {
 			store.dispatch(navigate(e.page));
 		})
 		store.dispatch(navigate(router.activePage));
+		installMediaQueryWatcher('(max-width: 1150px)', match => store.dispatch(updateDrawerLayout(match)));
 	}
 
 	updated(changedProps) {
@@ -280,17 +284,17 @@ class TodoApp extends connect(store)(LitElement) {
 			{
 				name: 'Jack Benton',
 				email: 'jackyboii@gmail.com',
-				avatar: '/img/dude.jpg'
+				avatar: '/img/avatars/128_10.jpg'
 			},
 			{
 				name: 'Bli A',
 				email: 'youwotm9@gmail.com',
-				avatar: '/img/dude.jpg'
+				avatar: '/img/avatars/128_8.jpg'
 			},
 			{
 				name: 'Katie Jackson',
 				email: 'the.kate.1993@gmail.com',
-				avatar: '/img/woman.jpg'
+				avatar: '/img/avatars/128_9.jpg'
 			}
 		]
 	}

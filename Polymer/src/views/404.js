@@ -8,7 +8,6 @@ import sharedStyles from '../components/shared-styles';
 class Page404 extends PageViewElement {
 	static get styles() {
 		return [
-			sharedStyles,
 			css`
 				:host {
 					text-align: center;

@@ -48,7 +48,7 @@ class SettingsPage extends PageViewElement {
 				<settings-panel section="Notifications">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?
 				</settings-panel>
-				<settings-panel section="Account">
+				<settings-panel section="Theme">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?
 				</settings-panel>
 				<settings-panel section="Account">
