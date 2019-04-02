@@ -5,13 +5,15 @@ class SettingsPanel extends LitElement {
 	static get styles () {
 		return css`
 			h2 {
+				color: var(--settings-panel-color, black);
 				font-weight: normal;
 				font-size: 16px;
 				margin: 25px 0 5px 0;
 			}
 
 			paper-material {
-				background: white;
+				color: var(--settings-panel-color, black);
+				background: var(--settings-panel-background, white);
 				font-size: 16px;
 				padding: 20px;
 				border-radius: 3px;

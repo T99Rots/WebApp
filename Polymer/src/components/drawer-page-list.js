@@ -28,12 +28,15 @@ class DrawerPageList extends LitElement {
 				vertical-align: middle;
 				margin-right: 20px;
 				margin-left: 3px;
-				fill: currentColor;
+				fill: var(--page-list-icon-color, var(--page-list-color, currentColor));
 			}
 			paper-button[selected] {
 				color: var(--page-list-selected-color,#3f51b5);
 				z-index: 2;
 				position: relative;
+			}
+			paper-button[selected] svg {
+				fill: var(--page-list-selected-color, #3f51b5)
 			}
 			paper-button[selected]::before {
 				border-radius: 5px;

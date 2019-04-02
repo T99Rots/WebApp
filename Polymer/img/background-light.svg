@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 387 228">
+	<filter id="dropshadow1" height="130%">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="2"/> <!-- stdDeviation is how much to blur -->
+		<feOffset dx="0" dy="0" result="offsetblur"/> <!-- how much to offset -->
+		<feComponentTransfer>
+			<feFuncA type="linear" slope="0.6"/> <!-- slope is the opacity of the shadow -->
+		</feComponentTransfer>
+		<feMerge> 
+			<feMergeNode/> <!-- this contains the offset blurred image -->
+			<feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+		</feMerge>
+	</filter>
+	<filter id="dropshadow3" height="130%">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
+		<feOffset dx="1" dy="1" result="offsetblur"/> <!-- how much to offset -->
+		<feComponentTransfer>
+			<feFuncA type="linear" slope="0.3"/> <!-- slope is the opacity of the shadow -->
+		</feComponentTransfer>
+		<feMerge> 
+			<feMergeNode/> <!-- this contains the offset blurred image -->
+			<feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+		</feMerge>
+	</filter>
+	<filter id="dropshadow2" height="130%">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="3"/> <!-- stdDeviation is how much to blur -->
+		<feOffset dx="1" dy="1" result="offsetblur"/> <!-- how much to offset -->
+		<feComponentTransfer>
+			<feFuncA type="linear" slope="0.2"/> <!-- slope is the opacity of the shadow -->
+		</feComponentTransfer>
+		<feMerge> 
+			<feMergeNode/> <!-- this contains the offset blurred image -->
+			<feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+		</feMerge>
+	</filter>
+	<rect fill="#cfe6ee" width="387" height="228" x="0" y="0"/>
+	<rect fill="#fef7a7" transform="rotate(64)" width="390" height="78" x="50" y="-196"/>
+	<rect filter="url(#dropshadow1)" fill="#f0efd0" transform="rotate(37)" width="390" height="178" x="83" y="-240"/>
+	<rect filter="url(#dropshadow3)" fill="#e8a35f" transform="rotate(43.8)" width="350" height="13" x="40" y="-55.5"/>
+	<rect fill="#688c8f" transform="rotate(54.5)" width="350" height="9" x="40" y="-127.5"/>
+	<rect fill="#75ccea" transform="rotate(14.7)" width="350" height="125" x="20" y="110"/>
+	<rect filter="url(#dropshadow2)" fill="#2e94bd" transform="rotate(62.8)" width="350" height="92" x="40" y="-262"/>
+</svg>

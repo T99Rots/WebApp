@@ -14,6 +14,7 @@ class NotificationsButton extends connect(store)(LitElement) {
 			css`
 				:host {
 					display: block;
+					--paper-menu-button-dropdown-background: var(--notification-dropdown-content-background, white);
 				}
 				.icon-btn {
 					min-width: 0;
@@ -32,15 +33,15 @@ class NotificationsButton extends connect(store)(LitElement) {
 					justify-content: space-between;
 					padding: 0 8px 0 16px;
 					align-items: center;
-					background: var(--app-primary-color);
-					color: white;
+					background: var(--notification-dropdown-primary-color, #444);
+					color: var(--notification-dropdown-header-color, white);
 				}
 				#menu-footer {
 					display: flex;
 					padding: 4px 0 14px 0;
 					align-items: center;
 					justify-content: center;
-					color: var(--app-primary-color);
+					color: var(--notification-dropdown-primary-color, #444);
 					font-size: 17px;
 					cursor: pointer;
 				}
@@ -63,6 +64,12 @@ class NotificationsButton extends connect(store)(LitElement) {
 				paper-icon-item {
 					cursor: pointer;
 				}
+				paper-item-body [primary] {
+					color: var(--notification-dropdown-content-color, black);
+				}
+				paper-item-body [secondary] {
+					color: var(--notification-dropdown-content-secondary-color, #737373);
+				}			
 			`
 		]
 	}
@@ -86,35 +93,35 @@ class NotificationsButton extends connect(store)(LitElement) {
 						<paper-icon-item>
 							<div class="avatar" style="background-image: url('/img/avatars/128.jpg')" slot="item-icon"></div>
 							<paper-item-body two-line>
-								<div>Notification 1</div>
+								<div primary>Notification 1</div>
 								<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
 							</paper-item-body>
 						</paper-icon-item>
 						<paper-icon-item>
 							<div class="avatar" style="background-image: url('/img/avatars/128_2.jpg')" slot="item-icon"></div>
 							<paper-item-body two-line>
-								<div>Notification 2</div>
+								<div primary>Notification 2</div>
 								<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
 							</paper-item-body>
 						</paper-icon-item>
 						<paper-icon-item>
 							<div class="avatar" style="background-image: url('/img/avatars/128_3.jpg')" slot="item-icon"></div>
 							<paper-item-body two-line>
-								<div>Notification 3</div>
+								<div primary>Notification 3</div>
 								<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
 							</paper-item-body>
 						</paper-icon-item>
 						<paper-icon-item>
 							<div class="avatar" style="background-image: url('/img/avatars/128_4.jpg')" slot="item-icon"></div>
 							<paper-item-body two-line>
-								<div>Notification 4</div>
+								<div primary>Notification 4</div>
 								<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
 							</paper-item-body>
 						</paper-icon-item>
 						<paper-icon-item>
 							<div class="avatar" style="background-image: url('/img/avatars/128_5.jpg')" slot="item-icon"></div>
 							<paper-item-body two-line>
-								<div>Notification 5</div>
+								<div primary>Notification 5</div>
 								<div secondary>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate labore nobis eveniet? Accusamus porro ut quo dolores amet eaque velit, dolor aut quae aliquid, ab omnis ducimus excepturi tempora pariatur?</div>
 							</paper-item-body>
 						</paper-icon-item>

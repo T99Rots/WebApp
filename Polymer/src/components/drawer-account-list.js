@@ -38,7 +38,7 @@ class DrawerAccountList extends LitElement {
 			.avatar svg {
 				width: 24px;
 				height: 24px;
-				fill: currentColor;
+				fill: var(--account-list-icon-color,currentColor);
 			}
 		`
 	}

@@ -16,17 +16,8 @@ class SettingsPage extends PageViewElement {
 					margin: auto;
 				}
 
-				h2 {
-					font-weight: normal;
-					font-size: 16px;
-					margin: 20px 0 5px 0;
-				}
-
-				paper-material {
-					background: white;
-					font-size: 16px;
-					padding: 20px;
-					border-radius: 3px;
+				settings-panel {
+					--settings-panel-color: var()
 				}
 
 				@media (max-width: 450px) {

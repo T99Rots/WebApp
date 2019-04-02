@@ -51,17 +51,21 @@ class TodoApp extends connect(store)(LitElement) {
 				--app-light-text-color: white;
 				--app-dark-text-color: black;
 
-				--app-header-background-color: var(--app-medium-background);
+				--app-header-background-color: var(--app-primary-color);
 				--app-header-text-color: var(--app-light-text-color);
 
-				--app-drawer-header-background: url('/img/background.svg');
-				--app-drawer-background-color: var(--app-medium-background);
-				--app-drawer-text-color: var(--app-light-text-color);
-				--drawer-divider-color: var(--app-medium-background);
+				--app-drawer-header-background: url('/img/background-light.svg');
+				--app-drawer-background-color: white;
+				--app-drawer-text-color: var(--app-dark-text-color);
+				--drawer-divider-color: #e0e0e0;
 				--app-drawer-width: 290px	;
 
 				--page-list-selected-color: var(--app-primary-color);
-				--page-list-color: var(--app-light-text-color);
+				--page-list-color: var(--app-dark-text-color);
+				--page-list-icon-color: #757575;
+				--account-list-icon-color: #757575;
+
+				--notification-dropdown-primary-color: var(--app-primary-color);
 			}
 
 			:host([theme="dark"]) {
@@ -77,10 +81,20 @@ class TodoApp extends connect(store)(LitElement) {
 				--drawer-divider-color: var(--app-medium-background);
 
 				--page-list-selected-color: var(--app-primary-color);
+				--page-list-color: var(--app-light-text-color);
+				--page-list-icon-color: var(--app-light-text-color);
+
+				--notification-dropdown-content-color:  var(--app-light-text-color);
+				--notification-dropdown-content-secondary-color: var(--app-light-text-color);
+				--notification-dropdown-content-background: var(--app-light-background);
 			}
 
 			[hidden] {
 				display: none;
+			}
+
+			app-header-layout ::content #contentContainer {
+				z-index: 10!important;
 			}
 
 			app-header {
@@ -136,6 +150,7 @@ class TodoApp extends connect(store)(LitElement) {
 				color: var(--app-drawer-text-color);
 				height: 100%;
 				user-select: none;
+				border-right: 1px solid var(--drawer-divider-color);
 			}
 
 			#drawer-header {
@@ -178,7 +193,7 @@ class TodoApp extends connect(store)(LitElement) {
 			}
 
 			view-container {
-				width: 100%;				
+				width: 100%;
 			}
 
 			@media (min-width: 377.8px) {
