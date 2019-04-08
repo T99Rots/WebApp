@@ -16,9 +16,21 @@ class TodoListPage extends PageViewElement {
 
 	render() {
 		return html`
-			<paper-expanding-item>
-				test
-			</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
+			<paper-expanding-item>test</paper-expanding-item>
 		`
 	}
 }

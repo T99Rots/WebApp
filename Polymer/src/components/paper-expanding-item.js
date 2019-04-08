@@ -16,7 +16,9 @@ class PaperExpandingItem extends LitElement {
 	static get styles() {
 		return css`
 			:host {
-				height: 100%;
+				background: red;
+				width: 100%;
+				height: 72px;
 			}
 
 			#scrim {
@@ -28,7 +30,26 @@ class PaperExpandingItem extends LitElement {
 				transition: background 0.2s linear;
 				z-index: 100;
 			}
+
+			:host([opened]) #scrim {
+				display: block;
+				background: rgba(0,0,0,0.5);
+			}
+
+			#contentContainer {
+				width: 100%;
+				background: red;
+				height: 72px;
+			}
+
+			:host([opened]) #contentContainer {
+
+			}
 		`
+	}
+
+	firstUpdated() {
+		this._contentContainer = this.renderRoot.getElementById('contentContainer');
 	}
 
 	render() {
@@ -42,6 +63,26 @@ class PaperExpandingItem extends LitElement {
 				</div>			
 			</div>
 		`
+	}
+
+	updated(changedProperties) {
+		if(changedProperties.has('opened')) {
+			if(this.opened) {
+				document.body.style.overflow = 'hidden';
+				const {top, left, width, height} = this._contentContainer.getBoundingClientRect();
+				this._contentContainer.style = `
+					position: fixed;
+					width: ${width}px;
+					height: ${height}px;
+					top: ${top}px;
+					left: ${left}px;
+					background: blue;
+				`
+			} else {
+				this._contentContainer.style = '';
+				document.body.style.overflow = '';
+			}
+		}
 	}
 
 	open() {
