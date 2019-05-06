@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npx polymer serve"
+    "start": "npx polymer serve -p 8392"
   },
   "keywords": [],
   "author": "",
