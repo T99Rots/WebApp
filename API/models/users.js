@@ -2,7 +2,6 @@ const { db } = require('../db');
 const bcrypt = require('bcrypt');
 
 const cachedUsers = {};
-const users = db.collection('users');
 
 // remove users from cache when they have been inactive 
 // for more then 20 minutes
@@ -15,6 +14,8 @@ setInterval(() => {
 }, 60 * 1000)
 
 exports.getUser = async (email) => {
+  const users = db.collection('users');
+  
   if(email in cachedUsers) {
     return cachedUsers[email];
   } else {
@@ -45,9 +46,9 @@ exports.registerUser = async (email, password) => {
 
   const hash = bcrypt.hash(password, 10);
 
-  users.insertOne({
-    email: 
-  })
+  // users.insertOne({
+  //   email: 
+  // })
 }
 
 exports.login = async (email, password) => {

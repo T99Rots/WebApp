@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require('routes/routes.js');
+const router = require('./routes/routes.js');
 const bodyParser = require('body-parser');
 require('./db').connect();
 

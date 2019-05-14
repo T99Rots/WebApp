@@ -18,7 +18,7 @@ const routes = {
 }
 
 for(const [route, method] of Object.entries(routes)) {
-  app[method](route, require(path.join(__dirname, '../models/', route + '.js')))
+  router[method](route, require(path.join(__dirname, '../models/', route + '.js')))
 }
 
 module.exports = router;

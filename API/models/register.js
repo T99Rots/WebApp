@@ -2,10 +2,10 @@ const { registerUser } = require('./users');
 const joi = require('@hapi/joi');
 
 const userSchema = joi.object().keys({
-  email: joi.string().email().required(),
-  password: joi.string().regex().required(),
-  postcode: joi.string().regex(/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i).required(),
-  houseNumber: joi.number().precision(0).min(0).required(),
+  email: joi.string().email(),
+  password: joi.string().min(10),
+  postcode: joi.string().regex(/^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i),
+  houseNumber: joi.number().precision(0).min(0),
   houseNumberAddition: joi.string().regex(/[A-Za-z]{0,2}/),
   street: joi.string(),
   city: joi.string()
@@ -35,10 +35,13 @@ module.exports = (req, res) => {
     }))
   }
   
-  const result = joi.validate(req.body, userSchema);
+  const result = joi.validate(req.body, userSchema, {presence: 'required'});
 
   if(result.error) {
-    res.send(getErrorMessage(result.error))
+    res.send(JSON.stringify({
+      error: getErrorMessage(result.error),
+      errorKey: result.error.label
+    }))
   }
   
   registerUser(req.body);
