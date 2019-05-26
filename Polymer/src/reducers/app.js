@@ -1,8 +1,8 @@
 import {
 	NAVIGATE,
 	DRAWER_STATE_UPDATE,
-	TOGGLE_ACCOUNT_SELECTOR,
-	UPDATE_DRAWER_LAYOUT
+	UPDATE_COMPACT_LAYOUT,
+  UPDATE_CART_STATE
 } from '../actions/app';
 
 import { router } from '../routes';
@@ -12,8 +12,14 @@ const initialState = {
 	page: {
 		title: 'Loading...'
 	},
-	drawerOpened: false,
-	accountSelectorOpened: false
+  drawerOpened: false,
+  cartOpened: false,
+  categories: [
+    {name: 'Men\'s Outerwear', id: 'mens-outerwear', preview: '/img/mens_outerwear.jpg'},
+    {name: 'Ladies Outerwear', id: 'ladies-outerwear', preview: '/img/ladies_outerwear.jpg'},
+    {name: 'Men\'s T-Shirts', id: 'mens-t-shirts', preview: '/img/mens_tshirts.jpg'},
+    {name: 'Ladies T-Shirts', id: 'ladies-t-shirts', preview: '/img/ladies_tshirts.jpg'}
+  ]
 }
 
 const app = (state = initialState, action) => {
@@ -28,16 +34,16 @@ const app = (state = initialState, action) => {
 				...state,
 				drawerOpened: action.state
 			}
-		case UPDATE_DRAWER_LAYOUT:
+		case UPDATE_COMPACT_LAYOUT:
 			return {
 				...state,
-				expandedDrawerLayout: action.expandedDrawerLayout
-			}
-		case TOGGLE_ACCOUNT_SELECTOR:
-			return {
-				...state,
-				accountSelectorOpened: !state.accountSelectorOpened
-			}
+				compactLayout: action.compactLayout
+      }
+    case UPDATE_CART_STATE:
+      return {
+        ...state,
+        cartOpened: action.state
+      }
 		default:
 			return state;
 	}

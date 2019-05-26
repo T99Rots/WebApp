@@ -1,16 +1,18 @@
-const express = require('express');
-const router = require('./routes/routes.js');
-const bodyParser = require('body-parser');
-require('./db').connect();
-
-const app = express();
-
-app.use(bodyParser.json());
-
-app.use(router);
+console.clear();
+(async () => {
+  const Koa = require('koa');
+  const bodyParser = require('koa-bodyparser');
   
-const port = process.env.PORT || 8391;
-
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
+  await require('./db').connect();
+  
+  const app = new Koa();
+  
+  app.use(bodyParser());
+  app.use(require('./routes/routes.js').routes());
+  
+  const port = process.env.PORT || 8391;
+  
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+})();

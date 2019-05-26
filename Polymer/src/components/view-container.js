@@ -2,35 +2,36 @@ import { LitElement, html, css } from 'lit-element';
 import './page-view-element';
 
 class ViewContainer extends LitElement {
+  constructor() {
+    super();
+    this._routerInstalled = false;
+    this._pageElements = {};
+  }
+
 	static get styles () {
 		return css`
 			:host {
 				display: block;
 				position: relative;
 			}
-			:host > * {
-				display: none;
-			}
-			:host > *[active] {
-				display: block;
-			}
+      :not([active]) {
+        display: none;
+      }
 		`
 	} 
 
   render () {
-		if(this.page && !(this.page.tagName in this._pageElements) && this.page.tagName) {
-			this._pageElements[this.page.tagName] = document.createElement(this.page.tagName);
+		if(this._page) {
+      if(!(this._page.id in this._pageElements) && this._page.tagName) {
+        this._pageElements[this._page.id] = document.createElement(this._page.tagName);
+      }
 		}
 
-		for(const [tagName, element] of Object.entries(this._pageElements)) {
-			if(tagName === this.page.tagName) {
-				if(!element.hasAttribute('active')) {
-					element.setAttribute('active','');
-				}
+		for(const [id, element] of Object.entries(this._pageElements)) {
+			if(id === this._page.id) {
+        element.setAttribute('active','');
 			} else {
-				if(element.hasAttribute('active')) {
-					element.removeAttribute('active');
-				}
+        element.removeAttribute('active');
 			}
 		}
 
@@ -41,13 +42,18 @@ class ViewContainer extends LitElement {
 
   static get properties () {
     return {
-			page: Object
+      _page: Object,
+      router: Object 
     };
   }
 
-  constructor () {
-		super();
-    this._pageElements = {};
+  updated(changedProps) {
+    if(!this._routerInstalled && changedProps.has('router')) {
+      this.router.addEventListener('page-change', ({page}) => {
+        this._page = page;
+      });
+      this._page = router.activePage;
+    }
   }
 }
 

@@ -2,6 +2,12 @@ const user = {
   id: 'k2n0huyndcothee160392g7hdju65h4j', // The user id
   email: 'some@email.com', // The user email
   password: 'some hashed password',
+  tokens: [
+    {
+      id: 'qap697w8v7naztgp40nbmhclau4yoftqp',
+      expirationDate: '2019-05-15T08:38:31.152Z'
+    }
+  ],
   oderHistory: [
     'vut4xeouulkot0nobvadrshttfffam2j' // A order id
   ],
@@ -68,25 +74,25 @@ const review = {
 const product = {
   id: 'r5owm1t9hf5glusn2cnnhlwute1ooho9', // The id of the product
   name: '13b titanium apex seals 6 pack', // The product name
-  category: 'uhtl6w99xuhv2xon5d8xrniykc867qv6s', // The id of the category this product is in
+  description: 'Such good quality apex seals, you will never have to replace these, only like 3 times a year',
+  categories: [
+    'mjanwru5bzhaqvrzbhemmh19yzz7gegnm'
+  ], // The id of the category this product is in
   reviews: [
     '52ci1v89nsx6o0lqz7mm1sg0ysv4a5zhf' // The id of the review
   ],
   preview: 'hwszciq80wsdwyi5bj3mqdri6zov592', // The id of the product shown in lists
-  versions: [
-    {
-      id: '88b2pca0ynqb5bog5obl87fgo9q42142', // The id of the version
-      price: 387.50, // The price of the product
-      photos: [
-        '8e64wj6c55ksevsr1dop7e6qlrzv33nvc' // The id of the version specific photo
-      ],
-      versionName: 'titanium' // The name of the version
-    }
-  ]
+  price: 387.50, // The price of the product
+  photos: [
+    '8e64wj6c55ksevsr1dop7e6qlrzv33nvc' // The id of the version specific photo
+  ],
+  specifications: {
+    material: 'Titanium'
+  }
 }
 
 const category = {
   id: 'mjanwru5bzhaqvrzbhemmh19yzz7gegnm',
   name: 'rotory\'s',
-
+  preview: 'sx56nfghriddnmsjq02btreggsxt9j1gk'
 }

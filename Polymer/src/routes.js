@@ -1,79 +1,51 @@
-import { Router, defaultScript, defaultTitle } from 'schema-router';
+import { Router } from 'schema-router';
 
-import {
-	notInterestedIcon,
-	inboxIcon,
-	todayIcon,
-	dateRangeIcon,
-	labelIcon,
-	settingsIcon
-} from './components/icons';
+const getParam = (param) => ({ params }) => params && params[param];
 
 const router = window.router = new Router({
   default: {
-    title: defaultTitle,
-    script: defaultScript,
-		tagName: a => a.id ? `${a.id}-page` : false,
-		icon: notInterestedIcon,
-		header: true,
-		drawer: true
+    title: ({id}) => id[0].toLocaleUpperCase()+id.substr(1).toLocaleLowerCase(),
+    script: ({id}) => `../views/${id}.js`,
+    tagName: a => a.id ? `${a.id}-page` : false,
+    tabNavigation: false
   },
   root: {
-    redirect: '/inbox'
+    id: 'home',
+    title: false,
+    tabNavigation: true
   },
   404: {
     tagName: 'page-404',
     id: '404',
     title: 'Page not found'
   },
-  pages: {
-		inbox: {
-			id: 'inbox',
-			template: 'todoList',
-			icon: inboxIcon
-		},
-		today: {
-			id: 'today',
-			template: 'todoList',
-			icon: todayIcon
-		},
-		week: {
-			id: 'week',
-			title: 'Next 7 days',
-			template: 'todoList',
-			icon: dateRangeIcon
-		},
-		projects: {
-			id: 'projects',
-			template: 'todoList'
-		},
-		labels: {
-			id: 'labels',
-			template: 'todoList',
-			icon: labelIcon
-		},
-		settings: {
-			id: 'settings',
-			icon: settingsIcon
-		},
+  routes: {
+		checkout: {
+      id: 'checkout'
+    },
+    cart: {
+      id: 'cart'
+    },
 		login: {
-			id: 'login',
-			hidden: true,
-			header: false,
-			drawer: false
-		}
-	},
-	templates: {
-		todoList: {
-			script: 'todo-list.js',
-			tagName: 'todo-list-page'
-		}
+			id: 'login'
+    },
+    'products/:category': {
+      id: 'products',
+      title: getParam('category'),
+      tabNavigation: true,
+      subRoutes: {
+        ':productName': {
+          id: 'product',
+          title: getParam('productName'),
+          tabNavigation: true
+        }
+      }
+    },
+    admin: {
+      id: 'admin',
+
+    }
 	}
 });
 
-const navigate = router.navigate;
-
-export {
-	router,
-	navigate
-}
+export { router };

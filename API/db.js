@@ -4,13 +4,65 @@ const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017';
 const dbName = process.env.MONGO_DB_NAME || 'web-shop'
 
 module.exports.connect = () => new Promise((resolve, reject) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, (err, client) => {
+  MongoClient.connect(mongoUrl, { useNewUrlParser: true }, async (err, client) => {
     if(err) {
       reject(err);
     } else {
       module.exports.client = client;
-      module.exports.db = client.db(dbName);
+      const db = module.exports.db = client.db(dbName);
+      await buildDB(db, dbSchema);
       resolve(client);
     }
   })
 })
+
+const dbSchema = {
+  users: ['_id','email'],
+  orders: ['_id','orderer','orderDate','status','products.id'],
+  reviews: ['_id','product','reviewer','likes'],
+  products: ['_id','categories','price','name'],
+  categories: ['_id']
+}
+
+const buildDB = async (db, schema) => {
+  const collectionNames = (await db.collections()).map(collection => collection.collectionName);
+ 
+  for (const collectionName in schema) {
+    const indexes = schema[collectionName].filter(a => a !== '_id');
+    let collection;
+
+    if (!collectionNames.includes(collectionName)) {
+      collection = await db.createCollection(collectionName);
+    } else {
+      collection = db.collection(collectionName);
+    }
+
+    if (indexes.length > 0) {
+      const missingIndexes = [];
+      for (const indexDefinition of indexes) {
+        let indexName;
+        if (Array.isArray(indexDefinition)) {
+          indexName = indexDefinition.join('+');
+        }
+        else {
+          indexName = indexDefinition;
+        }
+        if (!await collection.indexExists(indexName)) {
+          if (Array.isArray(indexDefinition)) {
+            missingIndexes.push({
+              name: indexName,
+              key: indexDefinition.reduce((a, b) => Object.assign(a, b), {})
+            });
+          }
+          else {
+            missingIndexes.push({
+              name: indexName,
+              key: { [indexName]: 1 }
+            });
+          }
+        }
+      }
+      if (missingIndexes.length > 0) collection.createIndexes(missingIndexes);
+    }
+  }
+}

@@ -1,8 +1,28 @@
 import { css } from 'lit-element';
 
 export default css`
-	:host {
-		background: #E1E2E1;
-		min-height: calc(100vh - 64px);
-	}
+  paper-button {
+    border: 2px solid black;
+    padding: 12px 44px;
+    font-size: 14px;
+  }
+  .underline {
+    position: relative;
+    cursor: pointer;
+  }
+  .underline::after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    content: ' ';
+    background: black;
+    width: 0px;
+    height: 1px;
+    transition: 0.1s ease-in-out;
+    transition-property: width left;
+  }
+  .underline:hover::after {
+    width: 100%;
+    left: 0%;
+  }
 ` 

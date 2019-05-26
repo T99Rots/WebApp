@@ -6,11 +6,11 @@ class PaperBadge extends LitElement {
 			#container {
 				position: relative;
 			}
-			#container::before {
+			#container::after {
 				content: var(--paper-badge-label-content, "0");
 				position: absolute;
-				left: calc(100% - 5px);
-				bottom: calc(100% - 10px);
+				left: calc(100% - 18px);
+				bottom: calc(100% - 18px);
 				background: var(--paper-badge-background, rgb(255, 64, 129));
 				color: var(--paper-badge-color, white);
 				width: 20px;
