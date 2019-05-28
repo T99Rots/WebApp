@@ -18,7 +18,7 @@ class LoginPage extends PageViewElement {
 
 				section {
 					width: 100%;
-					height: 100vh;
+					height: calc(100vh - 130px);
 					display: flex;
 					justify-content: center;
 					align-items: center;

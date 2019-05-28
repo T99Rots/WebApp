@@ -15,7 +15,6 @@ import '@polymer/paper-icon-button';
 import '@polymer/paper-button';
 import '@polymer/paper-item/paper-icon-item';
 import '@polymer/paper-item';
-import '@polymer/paper-material';
 import '../components/paper-badge';
 
 const formatPrice = (price) => `€ ${Math.floor(price)}.${(Math.floor((price%1)*100)+'00').substr(0,2)}`

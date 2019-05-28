@@ -2,7 +2,8 @@ import {
 	NAVIGATE,
 	DRAWER_STATE_UPDATE,
 	UPDATE_COMPACT_LAYOUT,
-  UPDATE_CART_STATE
+  UPDATE_CART_STATE,
+  UPDATE_ACCOUNT_DROP_DOWN_STATE
 } from '../actions/app';
 
 import { router } from '../routes';
@@ -43,6 +44,11 @@ const app = (state = initialState, action) => {
       return {
         ...state,
         cartOpened: action.state
+      }
+    case UPDATE_ACCOUNT_DROP_DOWN_STATE:
+      return {
+        ...state,
+        accountOptionsOpened: action.state
       }
 		default:
 			return state;

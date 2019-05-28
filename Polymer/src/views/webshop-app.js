@@ -19,7 +19,6 @@ import {
 import sharedStyles from '../components/shared-styles';
 
 //importing web components used on this page
-import '../components/paper-badge';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-icon-button';
 import '@polymer/paper-item';
@@ -30,10 +29,11 @@ import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/paper-tabs';
 import '@polymer/paper-menu-button';
 import '@polymer/paper-button';
+import '../components/paper-badge';
 import '../components/shop-tabs';
 import '../components/view-container';
 import '../components/shopping-cart';
-import '../components/account-options'
+import '../components/account-options';
 
 //the main custom element
 class TodoApp extends connect(store)(LitElement) {
@@ -47,9 +47,9 @@ class TodoApp extends connect(store)(LitElement) {
           min-height: calc(100vh - 130px;);
           padding-top: 130px;
 
-          --app-primary-color: rgb(32,32,32);
+          --app-primary-color: #172c50;
 
-          --app-header-background-color: white;
+          --app-header-background-color: rgba(255,255,255,0.9);
           --app-header-text-color: black;
           
           --app-drawer-width: 256px;
@@ -120,6 +120,7 @@ class TodoApp extends connect(store)(LitElement) {
         #left-bar-item, #right-bar-item {
           width: 88px;
           display: flex;
+          justify-content: space-between;
         }
 
         shopping-cart {
@@ -153,6 +154,7 @@ class TodoApp extends connect(store)(LitElement) {
             <a is="router-link" page-id="home">SHOP</a>
           </div>
           <div id="right-bar-item">
+            <account-options></account-options>
             <shopping-cart></shopping-cart>
           </div>
         </app-toolbar>
@@ -210,6 +212,11 @@ class TodoApp extends connect(store)(LitElement) {
     this._categories = state.app.categories;
     this._drawerOpened = state.app.drawerOpened;
     this._compactLayout = state.app.compactLayout;
+    if(state.app.page.id === 'login') {
+      this.setAttribute('login','');
+    } else {
+      this.removeAttribute('login');
+    }
 	}
 
 }

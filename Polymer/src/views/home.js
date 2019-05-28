@@ -39,7 +39,6 @@ class HomePage extends connect(store)(PageViewElement) {
 	}
 
 	render() {
-    console.log('-----', this._categories);
     return html`
       ${this._categories.map(({preview, name, id}) => html`
         <div class="item">

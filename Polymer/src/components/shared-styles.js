@@ -1,6 +1,9 @@
 import { css } from 'lit-element';
 
 export default css`
+  [hidden] {
+    display: none;
+  }
   paper-button {
     border: 2px solid black;
     padding: 12px 44px;
@@ -18,7 +21,7 @@ export default css`
     background: black;
     width: 0px;
     height: 1px;
-    transition: 0.1s ease-in-out;
+    transition: 0.115s ease-in-out;
     transition-property: width left;
   }
   .underline:hover::after {
