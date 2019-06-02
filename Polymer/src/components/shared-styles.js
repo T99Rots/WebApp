@@ -1,8 +1,18 @@
 import { css } from 'lit-element';
 
 export default css`
+  :host(.page) {
+    display: block;
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    padding-top: 130px;
+  }
+  :host {
+    --paper-input-container-focus-color: var(--app-primary-color);
+  }
   [hidden] {
-    display: none;
+    display: none!important;
   }
   paper-button {
     border: 2px solid black;
@@ -27,5 +37,10 @@ export default css`
   .underline:hover::after {
     width: 100%;
     left: 0%;
+  }
+  @media (max-width: 765px) {
+    :host(.page) {
+      padding-top: 64px;
+    }
   }
 ` 

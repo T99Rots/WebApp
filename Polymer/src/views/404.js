@@ -3,10 +3,12 @@ import { PageViewElement } from '../components/page-view-element';
 
 import '@polymer/paper-button';
 import '@polymer/iron-icons/iron-icons.js';
+import SharedStyles from '../components/shared-styles';
 
 class Page404 extends PageViewElement {
 	static get styles() {
 		return [
+      SharedStyles,
 			css`
 				:host {
 					text-align: center;

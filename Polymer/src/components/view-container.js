@@ -22,13 +22,15 @@ class ViewContainer extends LitElement {
 
   render () {
 		if(this._page) {
-      if(!(this._page.id in this._pageElements) && this._page.tagName) {
-        this._pageElements[this._page.id] = document.createElement(this._page.tagName);
+      if(!(this._page.tagName in this._pageElements) && this._page.tagName) {
+        const elem = document.createElement(this._page.tagName);
+        elem.className = 'page';
+        this._pageElements[this._page.tagName] = elem;
       }
 		}
 
 		for(const [id, element] of Object.entries(this._pageElements)) {
-			if(id === this._page.id) {
+			if(id === this._page.tagName) {
         element.setAttribute('active','');
 			} else {
         element.removeAttribute('active');

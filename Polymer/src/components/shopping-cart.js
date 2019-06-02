@@ -140,7 +140,7 @@ class ShoppingCart extends connect(store)(LitElement) {
                 </paper-item-body>
                 <div class="detail">
                   <p class="amount">Qty: ${item.amount}</p>
-                  <p class="price">${formatPrice(item.price)}</p>
+                  <p class="price">${formatPrice(item.price * item.amount)}</p>
                 </div>
               </paper-icon-item>
             `)}

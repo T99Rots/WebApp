@@ -12,10 +12,6 @@ import {
 } from '../actions/app'
 import { store } from '../store';
 
-import {
-  drawerIcon
-} from '../components/shop-icons'
-
 import sharedStyles from '../components/shared-styles';
 
 //importing web components used on this page
@@ -44,8 +40,7 @@ class TodoApp extends connect(store)(LitElement) {
       css`
         :host {
           display: block;
-          min-height: calc(100vh - 130px;);
-          padding-top: 130px;
+          min-height: 100vh;
 
           --app-primary-color: #172c50;
 
@@ -87,7 +82,8 @@ class TodoApp extends connect(store)(LitElement) {
           margin: 0;
           letter-spacing: 0.3em;
           text-decoration: none;
-          color: black;
+          color: var(--app-header-text-color);
+          pointer-events: auto;
         }
 
         app-drawer {
@@ -97,12 +93,6 @@ class TodoApp extends connect(store)(LitElement) {
         app-drawer a {
           color: rgb(117,117,117);
           text-decoration: none;
-        }
-
-        view-container {
-          width: 100%;
-          max-width: 1440px;
-          margin: auto;
         }
 
         .underline {
@@ -123,6 +113,10 @@ class TodoApp extends connect(store)(LitElement) {
           justify-content: space-between;
         }
 
+        #right-bar-item {
+          flex-direction: row-reverse;
+        }
+
         shopping-cart {
           z-index: 12;
         }
@@ -131,20 +125,24 @@ class TodoApp extends connect(store)(LitElement) {
           #menu-btn {
             display: block;
           }
-          :host {
-            padding-top: 64px;
-          }
         }
       `
     ]
 	}
 
 	render() {
+    console.log(this._header);
 		return html`
-      <app-header condenses reveals effects="waterfall" slot="header">
+      <app-header 
+        condenses
+        reveals
+        ?hidden="${!this._header}"
+        effects="waterfall"
+        slot="header">
         <app-toolbar>
           <div id="left-bar-item">
             <paper-icon-button
+              ?hidden="${!this._page.navigation}"
               @click="${() => store.dispatch(updateDrawerState(true))}"
               id="menu-btn"
               icon="menu">
@@ -154,12 +152,12 @@ class TodoApp extends connect(store)(LitElement) {
             <a is="router-link" page-id="home">SHOP</a>
           </div>
           <div id="right-bar-item">
-            <account-options></account-options>
-            <shopping-cart></shopping-cart>
+            <shopping-cart ?hidden="${!this._cart}"></shopping-cart>
+            <account-options ?hidden="${!this._accountOptions}"></account-options>
           </div>
         </app-toolbar>
         ${this._compactLayout? '': html`<shop-tabs 
-          ?hidden="${!['home','products','product'].includes(this._page.id)}"
+          ?hidden="${!this._page.navigation}"
           .categories="${this._categories}"
           .router="${router}"
           sticky>
@@ -195,7 +193,7 @@ class TodoApp extends connect(store)(LitElement) {
 				title: `Jap Tuning${this._page.title?' - ' + this._page.title: ''}`,
 				description: this._page.title
 			})
-		}
+    }
 	}
 
 	static get properties () {
@@ -203,7 +201,8 @@ class TodoApp extends connect(store)(LitElement) {
 			_page: Object,
 			_categories: Array,
       _drawerOpened: Boolean,
-      _compactLayout: Boolean
+      _compactLayout: Boolean,
+      _header: Boolean
     }
 	}
 
@@ -212,11 +211,9 @@ class TodoApp extends connect(store)(LitElement) {
     this._categories = state.app.categories;
     this._drawerOpened = state.app.drawerOpened;
     this._compactLayout = state.app.compactLayout;
-    if(state.app.page.id === 'login') {
-      this.setAttribute('login','');
-    } else {
-      this.removeAttribute('login');
-    }
+    this._cart = state.app.page.cart;
+    this._accountOptions = state.app.page.accountOptions;
+    this._header = state.app.page.header;
 	}
 
 }

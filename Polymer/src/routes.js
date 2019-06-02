@@ -7,12 +7,15 @@ const router = window.router = new Router({
     title: ({id}) => id[0].toLocaleUpperCase()+id.substr(1).toLocaleLowerCase(),
     script: ({id}) => `../views/${id}.js`,
     tagName: a => a.id ? `${a.id}-page` : false,
-    tabNavigation: false
+    navigation: false,
+    header: true,
+    accountOptions: true,
+    cart: true
   },
   root: {
     id: 'home',
     title: false,
-    tabNavigation: true
+    navigation: true
   },
   404: {
     tagName: 'page-404',
@@ -27,25 +30,40 @@ const router = window.router = new Router({
       id: 'cart'
     },
 		login: {
-			id: 'login'
+      id: 'login',
+      template: 'login'
+    },
+    register: {
+      id: 'register',
+      template: 'login'
+    },
+    'account-recovery': {
+      id: 'password-recovery',
+      template: 'login'
     },
     'products/:category': {
       id: 'products',
       title: getParam('category'),
-      tabNavigation: true,
+      navigation: true,
       subRoutes: {
         ':productName': {
           id: 'product',
           title: getParam('productName'),
-          tabNavigation: true
+          navigation: true
         }
       }
     },
     admin: {
-      id: 'admin',
-
+      id: 'admin'
     }
-	}
+  },
+  templates: {
+    login: {
+      script: '../views/login.js',
+      tagName: 'login-page',
+      header: false
+    }
+  }
 });
 
 export { router };
