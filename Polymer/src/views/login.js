@@ -5,8 +5,6 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import SharedStyles from '../components/shared-styles';
 import { store } from '../store';
 
-import '@polymer/app-layout/app-header/app-header';
-import '@polymer/app-layout/app-toolbar/app-toolbar';
 import '@polymer/paper-material';
 import '@polymer/paper-input/paper-input';
 import '@polymer/paper-button';
@@ -23,28 +21,27 @@ class LoginPage extends connect(store)(PageViewElement) {
 					background-size: cover;
 					background-position: center;
           --paper-input-container-focus-color: var(--app-primary-color);
+          --login-container-transition: 0.4s ease-in-out;
           max-width: unset!important;
           min-height: calc(100vh - 130px);
           position: relative;
         }
 
-        app-header {
+
+        #title {
           position: fixed;
           left: 0;
           top: 0;
           right: 0;
           width: 100%;
           z-index: 11;
-        }
-
-        [main-title] {
           text-align: center;  
         }
         
-        [main-title] a {
+        #title a {
           font-weight: 600;
           font-size: 16px;
-          line-height: 48px;
+          line-height: 64px;
           margin: 0;
           letter-spacing: 0.3em;
           text-decoration: none;
@@ -183,13 +180,13 @@ class LoginPage extends connect(store)(PageViewElement) {
             max-width: unset;
           }
 
-          [main-title] a {
+          #title a {
             color: black;
           }
         }
 
         @media(max-width: 835px) {
-          app-header {
+          #title {
             background: var(--app-header-background-color);
             color: var(--app-header-text-color);
           }
@@ -210,13 +207,9 @@ class LoginPage extends connect(store)(PageViewElement) {
 
 	render() {
     return html`
-      <app-header>
-        <app-toolbar>
-          <div main-title>
-            <a is="router-link" page-id="home">SHOP</a>
-          </div>
-        </app-toolbar>
-      </app-header>
+      <div id="title">
+        <a is="router-link" page-id="home">SHOP</a>
+      </div>
       <paper-material elevation="2" id="login-card">
         <login-container 
           active-side="${['login','account-recovery'].includes(this._page.id)? 'right': 'left'}">

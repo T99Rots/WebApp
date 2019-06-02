@@ -133,7 +133,8 @@ class TodoApp extends connect(store)(LitElement) {
 	render() {
     console.log(this._header);
 		return html`
-      <app-header 
+      <app-header
+        id="header"
         condenses
         reveals
         ?hidden="${!this._header}"
@@ -187,10 +188,17 @@ class TodoApp extends connect(store)(LitElement) {
 		installMediaQueryWatcher('(max-width: 765px)', match => store.dispatch(updateCompactLayout(match)));
 	}
 
+  update(changedProps) {
+    // Sometimes the header doesn't update the layout when the height changed 
+    const header = this.renderRoot.getElementById('header');
+    if(header) header.resetLayout();
+    super.update(changedProps);
+  }
+
 	updated(changedProps) {
 		if(changedProps.has('_page')) {
 			updateMetadata({
-				title: `Jap Tuning${this._page.title?' - ' + this._page.title: ''}`,
+				title: `Shop ${this._page.title?' - ' + this._page.title: ''}`,
 				description: this._page.title
 			})
     }

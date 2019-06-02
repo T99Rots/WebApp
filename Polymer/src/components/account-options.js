@@ -32,16 +32,15 @@ class AccountOptions extends connect(store)(LitElement) {
         #account-link {
           display: none;
         }
-        #google-logo {
+        .logo {
           width: 16px;
           height: 16px;
           margin-right: 5px;
         }
         h3 {
-          margin: 0;
+          margin: 0 0 10px 0;
           font-weight: normal;
           font-size: 18px;
-          margin-bottom: 10px;
         }
         h4 {
           margin: 0;
@@ -65,14 +64,13 @@ class AccountOptions extends connect(store)(LitElement) {
         }
         paper-button {
           width: 100%;
-          margin: 0;
+          margin: 0 0 10px 0;
         }
         a {
           text-decoration: none;
           color: black;
         }
         footer {
-          margin-top: 6px;
           display: flex;
           justify-content: space-between;
           font-size: 14px;
@@ -93,8 +91,12 @@ class AccountOptions extends connect(store)(LitElement) {
         <div id="login-content" slot="dropdown-content">
           <h3>Login</h3>
           <paper-button>
-            <img id="google-logo" src="/img/google-logo.svg">
-            Login using google
+            <img class="logo" src="/img/google-logo.svg">
+            Login using Google
+          </paper-button>
+          <paper-button>
+            <img class="logo" src="/img/facebook-logo.svg">
+            Login using Facebook
           </paper-button>
           <h4>Or login using email</h4>
           <paper-input label="Email"></paper-input>
