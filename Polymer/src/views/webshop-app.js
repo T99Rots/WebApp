@@ -30,6 +30,9 @@ import '../components/shop-tabs';
 import '../components/view-container';
 import '../components/shopping-cart';
 import '../components/account-options';
+import { api } from '../api';
+
+window.api = api;
 
 //the main custom element
 class TodoApp extends connect(store)(LitElement) {

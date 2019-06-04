@@ -12,6 +12,7 @@ module.exports.connect = () => new Promise((resolve, reject) => {
       const db = module.exports.db = client.db(dbName);
       await buildDB(db, dbSchema);
       resolve(client);
+      global.db = db;
     }
   })
 })
@@ -43,18 +44,34 @@ const buildDB = async (db, schema) => {
         let indexName;
         if (Array.isArray(indexDefinition)) {
           indexName = indexDefinition.join('+');
-        }
-        else {
+        } else if(typeof indexDefinition == 'object') {
+          if (Array.isArray(indexDefinition.key)) {
+            indexName = indexDefinition.key.join('+');
+          } else if (typeof indexDefinition.key == 'string'){
+            indexName = indexDefinition.key;
+          }
+        } else {
           indexName = indexDefinition;
-        }
+        } 
         if (!await collection.indexExists(indexName)) {
           if (Array.isArray(indexDefinition)) {
             missingIndexes.push({
               name: indexName,
               key: indexDefinition.reduce((a, b) => Object.assign(a, b), {})
             });
-          }
-          else {
+          } else if(typeof indexDefinition == 'object') {
+            let key;
+            if(Array.isArray(indexDefinition.key)) {
+              key = indexDefinition.key.reduce((a, b) => Object.assign(a, b), {});
+            } else {
+              key = { [indexName]: 1 };
+            }
+            missingIndexes.push({
+              ...indexDefinition,
+              name: indexName,
+              key
+            });
+          } else {
             missingIndexes.push({
               name: indexName,
               key: { [indexName]: 1 }
