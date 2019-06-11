@@ -8,3 +8,12 @@ public.cookie = () => async ({cookies}) => {
   let a = cookies.set('testCookie', 'it works, yay', {httpOnly: false, withCredentials: true})
   console.log(a);
 }
+public.headers = () => (ctx) => {
+  console.log(ctx.get('test'));
+  ctx.set('testy', 'working here')
+}
+public.new = () => (session) => {
+  console.log(session);
+}
+public.connect = () => 'token received'
+public.session = () => (session) => console.log(session);

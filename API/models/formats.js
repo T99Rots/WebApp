@@ -93,6 +93,6 @@ const product = {
 
 const category = {
   id: 'mjanwru5bzhaqvrzbhemmh19yzz7gegnm',
-  name: 'rotory\'s',
+  title: 'rotory\'s',
   preview: 'sx56nfghriddnmsjq02btreggsxt9j1gk'
 }

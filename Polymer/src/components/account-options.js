@@ -8,6 +8,19 @@ import {
   updateAccountDropDownState
 } from '../actions/app'
 
+import {
+  login,
+  register,
+  logout,
+  clearErrors
+} from '../actions/user';
+
+import user from '../reducers/user';
+
+store.addReducers({
+  user
+})
+
 import '@polymer/paper-menu-button';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icons/communication-icons.js';
@@ -59,6 +72,9 @@ class AccountOptions extends connect(store)(LitElement) {
           padding: 0;
           width: 240px;
         }
+        paper-icon-item {
+          cursor: pointer;
+        }
         #login-button {
           margin-top: 15px;
         }
@@ -66,7 +82,7 @@ class AccountOptions extends connect(store)(LitElement) {
           width: 100%;
           margin: 0 0 10px 0;
         }
-        a {
+        router-link {
           text-decoration: none;
           color: black;
         }
@@ -99,12 +115,12 @@ class AccountOptions extends connect(store)(LitElement) {
             Login using Facebook
           </paper-button>
           <h4>Or login using email</h4>
-          <paper-input label="Email"></paper-input>
-          <paper-input label="Password" type="password"></paper-input>
+          <paper-input label="Email" id="email" @focus="${this._onFieldFocus}"></paper-input>
+          <paper-input label="Password" id="password" type="password" @focus="${this._onFieldFocus}"></paper-input>
           <paper-button id="login-button" @click="${this._login}">Login</paper-button>
           <footer>
-            <a is="router-link" class="underline" page-id="register">Create account</a>
-            <a is="router-link" class="underline" page-id="account-recovery">Forgot password?</a>
+            <router-link class="underline" page-id="register">Create account</router-link>
+            <router-link class="underline" page-id="account-recovery">Forgot password?</router-link>
           </footer>
         </div>
 			</paper-menu-button>
@@ -135,21 +151,25 @@ class AccountOptions extends connect(store)(LitElement) {
           </paper-icon-item>           
         </div>
       </paper-menu-button>
-      <a page-id="account" is="router-link" ?hidden="${this._loggedIn || !this._compactLayout}">
+      <router-link page-id="login" ?hidden="${this._loggedIn || !this._compactLayout}">
         <paper-icon-button icon="account-circle"></paper-icon-button>
-      </a>
+      </router-link>
 		`
   }
   
+  _onFieldFocus () {
+    store.dispatch(clearErrors())
+  }
+
   _login () {
-    store.dispatch(updateAccountDropDownState(false));
-    this._loggedIn = true;
-    console.log('aiyuhyifafas')
+    store.dispatch(login({
+      email: this.shadowRoot.getElementById('email').value,      
+      password: this.shadowRoot.getElementById('password').value
+    }));
   }
 
   _logout () {
-    store.dispatch(updateAccountDropDownState(false));
-    this._loggedIn = false;
+    store.dispatch(logout());
   }
 
 	static get properties () {
@@ -161,15 +181,13 @@ class AccountOptions extends connect(store)(LitElement) {
 		}
   }
 
-  firstUpdated() {
-    this._loggedIn = false;
-  }
-  
   stateChanged(state) {
     this._accountOptionsOpened = state.app.accountOptionsOpened;
-    // this._loggedIn = true;
-    this._admin = true; // state.app.user.isAdmin
     this._compactLayout = state.app.compactLayout;
+    this._loggedIn = state.user.loggedIn;
+    this._admin = state.user.isAdmin;
+    this._loginErrors = state.user.loginErrors;
+    this._registerErrors = state.user.registerErrors;
   }
 }
 

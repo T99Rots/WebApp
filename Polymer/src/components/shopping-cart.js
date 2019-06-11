@@ -67,7 +67,7 @@ class ShoppingCart extends connect(store)(LitElement) {
         .price {
           color: black;
         }
-        a {
+        router-link {
           text-decoration: none;
           color: black;
         }
@@ -77,7 +77,7 @@ class ShoppingCart extends connect(store)(LitElement) {
           padding-bottom: 10px;
           align-items: center;
         }
-        header a {
+        header router-link {
           font-size: 14px;
         }
         footer {
@@ -87,7 +87,7 @@ class ShoppingCart extends connect(store)(LitElement) {
           flex-wrap: wrap;
           align-items: center;
         }
-        footer a {
+        footer router-link {
           flex-shrink: 0;
           width: 100%;
         }
@@ -128,7 +128,7 @@ class ShoppingCart extends connect(store)(LitElement) {
 				<div id="content" slot="dropdown-content">
           <header>
             <h3>Your Cart</h3>
-            <a is="router-link" page-id="cart" class="underline">Edit cart</a>
+            <router-link page-id="cart" class="underline">Edit cart</router-link>
           </header>
 					<div role="listbox">
             ${this._cart && repeat(this._cart, item => item.id, item => html`          
@@ -148,17 +148,17 @@ class ShoppingCart extends connect(store)(LitElement) {
           <footer>
             <p>Total</p>
             <p id="total">${total}</p>
-            <a is="router-link" page-id="checkout">
+            <router-link page-id="checkout">
               <paper-button>Checkout</paper-button>
-            </a>
+            </router-link>
           </footer>
 				</div>
 			</paper-menu-button>
-      <a page-id="cart" is="router-link" id="cart-link">
+      <router-link page-id="cart" id="cart-link">
         <paper-badge label="${itemCount}">
           <paper-icon-button icon="shopping-cart"></paper-icon-button>
         </paper-badge>
-      </a>
+      </router-link>
 		`
 	}
 

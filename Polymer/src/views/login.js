@@ -5,6 +5,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import SharedStyles from '../components/shared-styles';
 import { store } from '../store';
 
+import '@polymer/app-layout/app-header/app-header';
 import '@polymer/paper-material';
 import '@polymer/paper-input/paper-input';
 import '@polymer/paper-button';
@@ -27,8 +28,7 @@ class LoginPage extends connect(store)(PageViewElement) {
           position: relative;
         }
 
-
-        #title {
+        app-header {
           position: fixed;
           left: 0;
           top: 0;
@@ -38,7 +38,7 @@ class LoginPage extends connect(store)(PageViewElement) {
           text-align: center;  
         }
         
-        #title a {
+        app-header router-link {
           font-weight: 600;
           font-size: 16px;
           line-height: 64px;
@@ -80,7 +80,7 @@ class LoginPage extends connect(store)(PageViewElement) {
           margin: 30px;
         }
 
-        .middle-panel a {
+        .middle-panel router-link {
           color: white;
           text-decoration: none;
         }
@@ -117,54 +117,19 @@ class LoginPage extends connect(store)(PageViewElement) {
           margin: 30px auto 0 auto;
         }
 
-        #link-container {
+        .link-container {
           display: flex;
           justify-content: center;
-        }
-
-        .side-panel a {
-          color: black;
           margin: 30px 0 0 0;
-          text-decoration: none;
         }
 
-        .compact-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          width: 100%;
-        }
-
-        .compact-container > div {
-          max-width: 450px;
-          width: 100%;
-          padding: 64px 25px 25px 25px;
-        }
-
-        .compact-container h2 {
-          font-weight: normal;
-          font-size: 18px;
-        }
-
-        .compact-container p {
-          color: rgb(117,117,117);
-        }
-
-        .compact-container a {
-          display: block;
+        .side-panel router-link {
           color: black;
           text-decoration: none;
-          margin-top: 25px;
         }
 
-        .compact-container paper-input {
-          text-align: left;
-        }
-
-        .compact-container paper-button {
-          width: 100%;
-          margin-top: 25px;
+        .page-switch {
+          display: none;
         }
 
         @media(max-width: 1050px) {
@@ -180,25 +145,33 @@ class LoginPage extends connect(store)(PageViewElement) {
             max-width: unset;
           }
 
-          #title a {
+          app-header router-link {
             color: black;
           }
         }
 
         @media(max-width: 835px) {
-          #title {
+          app-header {
             background: var(--app-header-background-color);
             color: var(--app-header-text-color);
           }
 
-          paper-material {
-            display: none;
+          :host {
+            --login-container-middle-width: 0px;
+          }
+
+          .page-switch {
+            display: block
           }
         }
 
-        @media(min-width: 836px) {
-          .compact-container {
-            display: none;
+        @media(max-width: 475px) {
+          .content-container {
+            width: calc(100% - 60px);
+          }
+
+          .side-panel paper-input, paper-button {
+            width: 100%;
           }
         }
       `
@@ -207,37 +180,38 @@ class LoginPage extends connect(store)(PageViewElement) {
 
 	render() {
     return html`
-      <div id="title">
-        <a is="router-link" page-id="home">SHOP</a>
-      </div>
+      <app-header>
+        <router-link main-title page-id="home">SHOP</router-link>      
+      </app-header>
       <paper-material elevation="2" id="login-card">
         <login-container 
           active-side="${['login','account-recovery'].includes(this._page.id)? 'right': 'left'}">
           <div slot="left" class="side-panel">
-            <div>
+            <div class="content-container">
               <h2>Sign in</h2>
               <paper-icon-button src="/img/google-logo.svg"></paper-icon-button>
               <paper-icon-button src="/img/facebook-logo.svg"></paper-icon-button>
               <p>Or login using email</p>
               <paper-input label="Email"></paper-input>
               <paper-input label="Password" type="password"></paper-input>
-              <div id="link-container">
-                <a is="router-link" class="underline" page-id="account-recovery">Forgot your password?</a>
+              <div class="link-container">
+                <router-link class="underline" page-id="account-recovery">Forgot your password?</router-link>
               </div>
               <paper-button>Sign in</paper-button>
+              <div class="link-container page-switch">
+                <router-link page-id="register" class="underline">Don't have an account?</router-link>
+              </div>
             </div>
           </div>
           <div slot="middle-left" class="middle-panel">
-            <div>
-              <h3>Already have an account?</h3>
-              <p>Simply login to your account by clicking the login button</p>
-              <a is="router-link" page-id="login">
-                <paper-button>sing in</paper-button>
-              </a>
-            </div>
+            <h3>Already have an account?</h3>
+            <p>Simply login to your account by clicking the login button</p>
+            <router-link page-id="login">
+              <paper-button>sing in</paper-button>
+            </router-link>
           </div>
           <div slot="right" class="side-panel">
-            <div>
+            <div class="content-container">
               <h2>Create account</h2>
               <paper-icon-button src="/img/google-logo.svg"></paper-icon-button>
               <paper-icon-button src="/img/facebook-logo.svg"></paper-icon-button>
@@ -246,58 +220,30 @@ class LoginPage extends connect(store)(PageViewElement) {
               <paper-input label="Name"></paper-input>
               <paper-input label="Password" type="password"></paper-input>
               <paper-input label="Confirm password" type="password"></paper-input>
-              <paper-button>Sign in</paper-button>
+              <paper-button>Sign up</paper-button>
+              <div class="link-container page-switch">
+                <router-link class="underline" page-id="login">Already have an account?</router-link>
+              </div>
             </div>
           </div>
           <div slot="middle-right" class="middle-panel">
-            <div>
-              <h3>Don't have an account?</h3>
-              <p>Simply create your account by clicking the signup button</p>
-              <a is="router-link" page-id="register">
-                <paper-button>sing up</paper-button>
-              </a>
-            </div>
+            <h3>Don't have an account?</h3>
+            <p>Simply create your account by clicking the signup button</p>
+            <router-link page-id="register">
+              <paper-button>sing up</paper-button>
+            </router-link>
           </div>
         </login-container>
       </paper-material>
-      <div
-        class="compact-container"
-        id="compact-login-container"
-        ?hidden="${this._page.id !== 'login'}">
-        <div>
-          <h2>Sign in</h2>
-          <paper-icon-button src="/img/google-logo.svg"></paper-icon-button>
-          <paper-icon-button src="/img/facebook-logo.svg"></paper-icon-button>
-          <p>Or login using email</p>
-          <paper-input label="Email"></paper-input>
-          <paper-input label="Password" type="password"></paper-input>
-          <a is="router-link" class="underline" page-id="account-recovery">Forgot your password?</a>
-          <paper-button>Sign in</paper-button>
-          <a is="router-link" class="underline" page-id="register">Don't have an account?</a> </div>
-        </div>
-      <div
-        class="compact-container"
-        id="compact-register-container"
-        ?hidden="${this._page.id !== 'register'}">
-        <div>
-          <h2>Create account</h2>
-          <paper-icon-button src="/img/google-logo.svg"></paper-icon-button>
-          <paper-icon-button src="/img/facebook-logo.svg"></paper-icon-button>
-          <p>Or create an account using email</p>
-          <paper-input label="Email"></paper-input>
-          <paper-input label="Name"></paper-input>
-          <paper-input label="Password" type="password"></paper-input>
-          <paper-input label="Confirm password" type="password"></paper-input>
-          <paper-button>Sign in</paper-button>
-          <a is="router-link" class="underline" page-id="login">Already have an account?</a>
-        </div>
-      </div>
-      <div 
-        class="compact-container"
-        id="compact-account-recovery-container" 
-        ?hidden="${this._page.id !== 'account-recovery'}">
-      </div>
 		`
+  }
+
+  login () {
+    
+  }
+
+  register () {
+
   }
   
   static get properties () {

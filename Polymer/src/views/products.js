@@ -34,7 +34,7 @@ class ProductsPage extends connect(store)(PageViewElement) {
           max-width: 33%;
         }
 
-        #grid a {
+        #grid router-link {
           display:block;
           text-decoration: none;
         }
@@ -64,7 +64,7 @@ class ProductsPage extends connect(store)(PageViewElement) {
 	render() {
     return html`
       <shop-image
-        src="${this._category.image}"
+        src="${this._banner}"
         placeholder="${this._category.placeholder}" class="hero-image">
       </shop-image>
 

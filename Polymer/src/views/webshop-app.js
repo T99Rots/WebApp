@@ -30,9 +30,6 @@ import '../components/shop-tabs';
 import '../components/view-container';
 import '../components/shopping-cart';
 import '../components/account-options';
-import { api } from '../api';
-
-window.api = api;
 
 //the main custom element
 class TodoApp extends connect(store)(LitElement) {
@@ -78,7 +75,7 @@ class TodoApp extends connect(store)(LitElement) {
           text-align: center;  
         }
         
-        [main-title] a {
+        [main-title] router-link {
           font-weight: 600;
           font-size: 16px;
           line-height: 48px;
@@ -93,7 +90,7 @@ class TodoApp extends connect(store)(LitElement) {
           z-index: 13;
         }
 
-        app-drawer a {
+        app-drawer router-link {
           color: rgb(117,117,117);
           text-decoration: none;
         }
@@ -134,7 +131,6 @@ class TodoApp extends connect(store)(LitElement) {
 	}
 
 	render() {
-    console.log(this._header);
 		return html`
       <app-header
         id="header"
@@ -153,7 +149,7 @@ class TodoApp extends connect(store)(LitElement) {
             </paper-icon-button>
           </div>
           <div main-title id="logo">
-            <a is="router-link" page-id="home">SHOP</a>
+            <router-link page-id="home">SHOP</router-link>
           </div>
           <div id="right-bar-item">
             <shopping-cart ?hidden="${!this._cart}"></shopping-cart>
@@ -169,11 +165,11 @@ class TodoApp extends connect(store)(LitElement) {
       </app-header>
       <app-drawer ?opened="${this._drawerOpened}">
         ${this._categories && this._categories.map(category => html`
-          <a page-id="products" params="category: ${category.id}" is="router-link">
+          <router-link page-id="products" params="category: ${category.id}">
             <paper-item>
               <p class="underline">${category.name}</p>
             </paper-item>
-          </a>
+          </router-link>
         `)}
       </app-drawer>
       <view-container .router="${router}"></view-container>

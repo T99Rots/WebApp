@@ -30,7 +30,7 @@ class HomePage extends connect(store)(PageViewElement) {
           font-weight: normal;
           font-size: 17px;
         }
-        a {
+        router-link {
           color: black;
           text-decoration: none;
         }
@@ -44,11 +44,11 @@ class HomePage extends connect(store)(PageViewElement) {
         <div class="item">
           <shop-image src="${preview}"></shop-image>
           <h2>${name}</h2>
-          <a page-id="products" params="category: ${id}" is="router-link">
+          <router-link page-id="products" params="category: ${id}">
             <paper-button>
               Shop now
             </paper-button>
-          </a>
+          </router-link>
         </div>        
       `)}
 		`

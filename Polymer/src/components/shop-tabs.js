@@ -36,11 +36,11 @@ class ShopTabs extends LitElement {
         font-size: 13px;
       }
 
-      paper-tab:focus a {
+      paper-tab:focus router-link {
         font-weight: normal;
       }
 
-      a {
+      router-link {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -73,7 +73,7 @@ class ShopTabs extends LitElement {
     return html`
       <paper-tabs selected="${this.categories && this.categories.findIndex(({id}) => id === this._activeCategory)}">
         ${this.categories && this.categories.map(({name, id}) => html`
-          <paper-tab><a is="router-link" page-id="products" params="category: ${id}">${name}</a></paper-tab>
+          <paper-tab><router-link page-id="products" params="category: ${id}">${name}</router-link></paper-tab>
         `)}
       </paper-tabs>
     `

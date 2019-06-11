@@ -21,7 +21,7 @@ const dbSchema = {
   users: ['_id','email'],
   orders: ['_id','orderer','orderDate','status','products.id'],
   reviews: ['_id','product','reviewer','likes'],
-  products: ['_id','categories','price','name'],
+  products: ['_id','category','price','name'],
   categories: ['_id']
 }
 

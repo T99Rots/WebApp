@@ -23,7 +23,7 @@ class Page404 extends PageViewElement {
           padding: 50px 0;
           font-weight: normal;
         }
-        a {
+        router-link {
           text-decoration: none;
           color: black;
         }
@@ -45,9 +45,9 @@ class Page404 extends PageViewElement {
     return html`
       <iron-icon icon="error"></iron-icon>
 			<h1>Sorry, we could not find that page</h1>
-			<a is="router-link" page-id="home">
+			<router-link page-id="home">
 				<paper-button>Go to the home page</paper-button>
-			</a>
+			</router-link>
 		`
 	}
 }
