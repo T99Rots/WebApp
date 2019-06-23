@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon --inspect index.js",
-    "seed": "node seed"
+    "seed": "node seed",
+    "seed:random": "node seed --mode random"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +21,8 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mongodb": "^3.2.2",
-    "ws": "^6.2.1"
+    "ws": "^6.2.1",
+    "yargs": "^13.2.4"
   },
   "devDependencies": {
     "nodemon": "^1.19.0"

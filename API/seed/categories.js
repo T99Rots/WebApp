@@ -1,4 +1,4 @@
-const { ObjectID } = require('mongodb'); 
+const { ObjectID } = require('mongodb');
 const faker = require('faker');
 
 exports.seed = ({mode}) => {

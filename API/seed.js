@@ -1,10 +1,15 @@
+const yargs = require('yargs');
+
 (async () => {
-  await require('./db').connect();
+  const dbModule = require('./db');
   const fs = require('fs');
   const path = require('path');
+  
+  await dbModule.connect();
+  const db = dbModule.db;
 
   // can be clean or random
-  const mode = 'clean'
+  const mode = yargs.argv.mode || 'clean';
 
   const seeders = [
     'categories',
@@ -20,8 +25,17 @@
   }
 
   for(const seeder of seeders) {
-    ctx.data[seeder] = require(path.join(__dirname, './seed/', seeder)).seed(ctx);
+    ctx.data[seeder] = await require(path.join(__dirname, './seed/', seeder)).seed(ctx);
   }
 
-  console.log(ctx);
+  for(const collectionName of seeders) {
+    if(Array.isArray(ctx.data[collectionName]) && ctx.data[collectionName].length > 0) {
+      await db.collection(collectionName).bulkWrite(ctx.data[collectionName].map(doc => ({
+        insertOne: doc
+      })));
+    }
+  }
+
+  console.log('Seeding completed!');
+  process.exit();
 })()
