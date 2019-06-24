@@ -7,7 +7,7 @@ exports.Router = class {
     const connections = [];
 
     wss.on('listening', () => {
-      console.log('listening on port ' + options.port)
+      if(options.port) console.log('listening on port ' + options.port)
     })
 
     wss.on('connection', ws => {

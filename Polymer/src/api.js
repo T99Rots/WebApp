@@ -23,7 +23,7 @@ const connectHandler = async (api) => {
   }
 }
 
-const api = createAPI(`ws://${location.hostname}:8391`, connectHandler);
+const api = createAPI(`ws://${location.hostname}:8391/api`, connectHandler);
 
 export default api;
 window.api = api;

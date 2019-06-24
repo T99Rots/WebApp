@@ -60,7 +60,7 @@ const genUser = async () => {
 exports.seed = async () => {
   const users = [];
 
-  const userCount = faker.random.number({min: 25000, max: 40000});
+  const userCount = faker.random.number({min: 50000, max: 70000});
 
   for(let i = 0; i < userCount; i++) {
     users.push(genUser());

@@ -15,5 +15,5 @@ export const store = createStore(
 )
 
 store.addReducers({
-	app
+  app
 })

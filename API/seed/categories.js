@@ -7,12 +7,12 @@ exports.seed = ({mode}) => {
       {
         _id: new ObjectID(),
         title: 'Ladies Outerwear',
-        image: 'media/ladies_outwear.jpg'
+        image: 'media/ladies_outerwear.jpg'
       },
       {
         _id: new ObjectID(),
-        title: 'Men\'s Outwear',
-        image: 'media/mens_outwear.jpg'
+        title: 'Men\'s Outerwear',
+        image: 'media/mens_outerwear.jpg'
       },
       {
         _id: new ObjectID(),

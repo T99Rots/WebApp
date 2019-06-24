@@ -72,8 +72,12 @@ class ShopTabs extends LitElement {
   render() {
     return html`
       <paper-tabs selected="${this.categories && this.categories.findIndex(({id}) => id === this._activeCategory)}">
-        ${this.categories && this.categories.map(({name, id}) => html`
-          <paper-tab><router-link page-id="products" params="category: ${id}">${name}</router-link></paper-tab>
+        ${this.categories && this.categories.map(({title, id}) => html`
+          <paper-tab>
+            <router-link page-id="products" params="category: ${id}">
+              ${title}
+            </router-link>
+          </paper-tab>
         `)}
       </paper-tabs>
     `

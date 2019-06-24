@@ -3,14 +3,23 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { updateMetadata } from 'pwa-helpers/metadata';
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query';
 import { router } from '../routes';
+import { store } from '../store';
 
 //importing the actions required by this app
 import {
 	navigate,
 	updateDrawerState,
 	updateCompactLayout
-} from '../actions/app'
-import { store } from '../store';
+} from '../actions/app';
+
+import {
+  getCategories
+} from '../actions/products';
+
+import products from '../reducers/products';
+store.addReducers({
+  products
+});
 
 import sharedStyles from '../components/shared-styles';
 
@@ -183,7 +192,8 @@ class TodoApp extends connect(store)(LitElement) {
 		router.addEventListener('page-change', e => {
       store.dispatch(navigate(e.page));
 		})
-		store.dispatch(navigate(router.activePage));
+    store.dispatch(navigate(router.activePage));
+    store.dispatch(getCategories());
 		installMediaQueryWatcher('(max-width: 765px)', match => store.dispatch(updateCompactLayout(match)));
 	}
 
@@ -215,7 +225,7 @@ class TodoApp extends connect(store)(LitElement) {
 
 	stateChanged(state) {
 		this._page = state.app.page;
-    this._categories = state.app.categories;
+    this._categories = state.products.categories;
     this._drawerOpened = state.app.drawerOpened;
     this._compactLayout = state.app.compactLayout;
     this._cart = state.app.page.cart;
