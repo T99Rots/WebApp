@@ -10,3 +10,17 @@ export const getCategories = () => async (dispatch) => {
     categories: await api.categories()
   });
 }
+
+export const getProducts = (category) => async (dispatch) => {
+  dispatch({
+    type: GET_PRODUCTS,
+    products: await api.products(category)
+  });
+}
+
+export const getProduct = (productId) => async (dispatch) => {
+  dispatch({
+    type: GET_PRODUCT,
+    products: await api.products(productId)
+  });
+}

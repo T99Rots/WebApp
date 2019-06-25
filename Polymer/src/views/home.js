@@ -40,11 +40,11 @@ class HomePage extends connect(store)(PageViewElement) {
 
 	render() {
     return html`
-      ${this._categories.map(({image, title, id}) => html`
+      ${this._categories.map(({image, title, _id}) => html`
         <div class="item">
           <shop-image src="${image}"></shop-image>
           <h2>${title}</h2>
-          <router-link page-id="products" params="category: ${id}">
+          <router-link page-id="products" params="category: ${_id}">
             <paper-button>
               Shop now
             </paper-button>
