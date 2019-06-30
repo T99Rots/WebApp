@@ -1,3 +1,5 @@
+const { hostname, port } = require('../index');
+
 const { db } = require('../db');
 const { APIError } = require('../remote-object-server');
 const { ObjectID } = require('mongodb');
@@ -12,9 +14,10 @@ exports.public = async (category) => {
   return (await products
     .find({category: new ObjectID(category)})
     .toArray())
-    .map(({image, _id, title}) => ({
-      image,
+    .map(({image, _id, title, price}) => ({
+      image: `http://${hostname}:${port}/media/` + image,
       _id,
-      title
+      title,
+      price
     }));
 };

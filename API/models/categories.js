@@ -7,7 +7,7 @@ exports.public = async () => {
   return (await db.collection('categories').find({}).toArray()).map(category => {
     return {
       ...category,
-      image: `http://${hostname}:${port}/` + category.image
+      image: `http://${hostname}:${port}/media/` + category.image
     }
   });
 }

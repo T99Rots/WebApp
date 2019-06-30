@@ -1,7 +1,6 @@
 import { html, css } from 'lit-element';
 import { PageViewElement } from '../components/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin'
-import '@polymer/paper-button';
 
 import '@polymer/paper-button';
 import sharedStyles from '../components/shared-styles';

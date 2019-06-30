@@ -3,6 +3,12 @@ import { PageViewElement } from '../components/page-view-element';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { repeat } from 'lit-html/directives/repeat.js';
 
+import { 
+  getProducts
+} from '../actions/products';
+
+import '../components/product-list-item';
+import '../components/shop-image';
 import SharedStyles from '../components/shared-styles';
 import { store } from '../store';
 
@@ -14,6 +20,24 @@ class ProductsPage extends connect(store)(PageViewElement) {
         #banner {
           height: 320px;
           margin-bottom: 32px;
+          width: 100%;
+        }
+
+        header {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        header h1 {
+          margin: 0 0 4px 0;
+          font-size: 18px;
+          font-weight: 400;
+        }
+
+        header span {
+          font-size: 10;
         }
 
         #grid {
@@ -56,8 +80,10 @@ class ProductsPage extends connect(store)(PageViewElement) {
 
   static get properties () {
     return {
+      _category: String,
       _products: Array,
-      _banner: String  
+      _banner: String,
+      _title: String
     }
   }
 
@@ -65,25 +91,44 @@ class ProductsPage extends connect(store)(PageViewElement) {
     return html`
       <shop-image
         src="${this._banner}"
-        placeholder="${this._category.placeholder}" class="hero-image">
+        id="banner">
       </shop-image>
 
       <header>
-        <h1>${this._category.title}</h1>
-        <span>${this._getPluralizedQuantity(this._category.items)}</span>
+        <h1>${this._title}</h1>
+        <span>${this._products.length} ${this._products.length === 1? 'item': 'items'}</span>
       </header>
 
       <ul id="grid">
         ${repeat(this._products, item => item._id, item => html`
           <li>
             <a href="/detail/${this._category.name}/${item.name}">
-              <shop-list-item .item="${item}"></shop-list-item>
+              <product-list-item .item="${item}"></product-list-item>
             </a>
           </li>
         `)}
       </ul>
-
 		`
+  }
+
+  update(changedProps) {
+    if(changedProps.has('_category')) {
+      store.dispatch(getProducts(this._category))
+    }
+    super.update(changedProps);
+  }
+
+  stateChanged({products: {products, categories}, app: {page}}) {
+    if(
+      page.id === 'products'
+      &&page.params.category
+      ) {
+      const categoryObj = categories.find((category) => category._id === page.params.category);
+      this._category = page.params.category;
+      this._banner = categoryObj.image;
+      this._title = categoryObj.title;
+    }
+    this._products = products;
   }
   
 }

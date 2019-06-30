@@ -5,7 +5,6 @@ const { db } = require('../db');
 const bcrypt = require('bcrypt');
 const joi = require('@hapi/joi');
 const { APIError } = require('../object-router')
-const { ObjectStore } = require('../object-store');
 
 const users = db.collection('users')
 
