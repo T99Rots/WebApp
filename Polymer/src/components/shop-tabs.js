@@ -46,6 +46,7 @@ class ShopTabs extends LitElement {
         align-items: center;
         color: inherit;
         text-decoration: none;
+        height: 37px;
       }
     `
   }

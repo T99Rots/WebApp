@@ -44,12 +44,23 @@ const router = window.router = new Router({
     'products/:category': {
       id: 'products',
       title: getParam('category'),
+      navigation: true
+    },
+    'product/:productId': {
+      id: 'productNameless',
+      redirect: ({params}) => ({
+        id: 'product',
+        params: {
+          ...params,
+          productName: 'no product name'
+        }
+      }),
       navigation: true,
       subRoutes: {
         ':productName': {
+          navigation: true,
           id: 'product',
-          title: getParam('productName'),
-          navigation: true
+          title: getParam('productName')
         }
       }
     },

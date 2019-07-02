@@ -23,9 +23,11 @@ class ProductsListItem extends LitElement {
         .title {
           color: black;
           font-weight: bold;
+          font-size: 13px;
         }
         .price {
-          color: black;
+          color: rgb(117, 117, 117);
+          font-size: 13px;
         }
         @media (max-width: 765px) {
           :host {
@@ -39,11 +41,9 @@ class ProductsListItem extends LitElement {
   render() {
     const item = this.item || {};
     return html`
-      <router-link page-id="product" params="productId: ${this.item._id}">
-        <shop-image src="${item.image}" alt="${item.title}"></shop-image>
-        <div class="title">${item.title}</div>
-        <span class="price">${item.price ? `$${item.price.toFixed(2)}` : null}</span>
-      </router-link>
+      <shop-image src="${item.image}" alt="${item.title}"></shop-image>
+      <div class="title">${item.title}</div>
+      <span class="price">${item.price ? `$${item.price.toFixed(2)}` : null}</span>
     `;
   }
 

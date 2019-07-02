@@ -102,9 +102,9 @@ class ProductsPage extends connect(store)(PageViewElement) {
       <ul id="grid">
         ${repeat(this._products, item => item._id, item => html`
           <li>
-            <a href="/detail/${this._category.name}/${item.name}">
+            <router-link page-id="product" params="productId: ${item._id}; productName: ${item.title}">
               <product-list-item .item="${item}"></product-list-item>
-            </a>
+            </router-link>
           </li>
         `)}
       </ul>
