@@ -8,11 +8,18 @@ exports.seed = ({mode, data: {categories}}) => {
     for(const [category, products] of Object.entries(productsObj)) {
       const categoryId = categories.find(a => a.title === category)._id;
       for(const product of products) {
+        const versions = ['XS','S','M','L','XL'].map(v=>({
+          name: v,
+          price: product.price,
+          _id: new ObjectID()
+        }))
         allProducts.push({
           ...product,
           category: categoryId,
           reviews: [],
-          _id: new ObjectID()
+          _id: new ObjectID(),
+          versions,
+          defaultVersion: versions[2]._id
         })
       }
     }

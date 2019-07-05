@@ -1,6 +1,7 @@
 const { db } = require('../db');
 const { APIError } = require('../remote-object-server');
 const { ObjectID } = require('mongodb');
+const { hostname, port } = require('../index');
 
 const products = db.collection('products');
 
@@ -9,5 +10,10 @@ exports.public = async (productId) => {
     throw new APIError('Product id is required');
   }
 
-  return products.findOne({_id: new ObjectID(productId)});
+  const product = await products.findOne({_id: new ObjectID(productId)});
+
+  product.image = `http://${hostname}:${port}/media/` + product.largeImage;
+  delete product.largeImage;
+
+  return product;
 };

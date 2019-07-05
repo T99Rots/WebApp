@@ -19,10 +19,10 @@ const genToken = (lastActive) => {
   }
 }
 
-const genUser = async () => {
+
+const genUser = async (hash) => {
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
-  const hash = await bcrypt.hash(faker.internet.password(), 10);
   
   const registerDate = faker.date.past(2);
   const lastActiveDate = faker.date.between(registerDate, new Date());
@@ -60,10 +60,11 @@ const genUser = async () => {
 exports.seed = async () => {
   const users = [];
 
-  const userCount = faker.random.number({min: 10000, max: 15000});
+  const userCount = faker.random.number({min: 40000, max: 65000});
+  const hash = await bcrypt.hash('welcome123', 10);
 
   for(let i = 0; i < userCount; i++) {
-    users.push(genUser());
+    users.push(genUser(hash));
   }
 
   return Promise.all(users);

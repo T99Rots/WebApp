@@ -21,6 +21,6 @@ export const getProducts = (category) => async (dispatch) => {
 export const getProduct = (productId) => async (dispatch) => {
   dispatch({
     type: GET_PRODUCT,
-    products: await api.products(productId)
+    product: await api.product(productId)
   });
 }

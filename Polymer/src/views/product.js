@@ -15,6 +15,7 @@ import '../components/product-list-item';
 import '../components/shop-image';
 import SharedStyles from '../components/shared-styles';
 import { store } from '../store';
+import { router } from '../routes';
 
 class ProductPage extends connect(store)(PageViewElement) {
 	static get styles() {
@@ -111,32 +112,36 @@ class ProductPage extends connect(store)(PageViewElement) {
 
   static get properties () {
     return {
-      _category: String,
-      _products: Array,
-      _banner: String,
-      _title: String
+      _product: Object
     }
   }
 
 	render() {
+    if(!this._product) return;
     return html`
       <div id="content">
-        <shop-image src=""></shop-image>
+        <shop-image src="${this._product.image}"></shop-image>
         <div class="detail" has-content>
-          <h1>${'this._item.title'}</h1>
-          <div class="price">${1}</div>
+          <h1>${this._product.title}</h1>
+          <div class="price">$ ${this._product.price.toFixed(2)}</div>
           <div class="pickers">
             <paper-dropdown-menu label="Size">
               <paper-listbox slot="dropdown-content" selected="2">
-                ${['XS','S','M','L','XL'].map(version => html`
-                  <paper-item>${version}</paper-item>
+                ${this._product.versions.map(({name}) => html`
+                  <paper-item>${name}</paper-item>
                 `)}
               </paper-listbox>
             </paper-dropdown-menu>
           </div>
           <div class="description">
             <h2>Description</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos ullam dignissimos nesciunt quasi quisquam, quo similique. Corrupti optio, quo suscipit fugit veritatis omnis ad, exercitationem mollitia, sunt aperiam et. Ipsam.</p>
+            <p>${this._product.description}</p>
+            <h2>Features</h2>
+            <ul>
+              ${this._product.features.map(feature => html`
+                <li>${feature}</li>
+              `)}
+            </ul>
           </div>
           <paper-button>
             Add to cart
@@ -146,8 +151,31 @@ class ProductPage extends connect(store)(PageViewElement) {
 		`
   }
 
-  stateChanged() {
+  stateChanged({products: {product}, app: {page}}) {
+    console.log(
+      page.id === 'product',
+      product._id,
+      page.params.productId !== product._id
+    )
+    if(
+      page.id === 'product'
+      &&page.params.productId
+      &&page.params.productId !== product._id
+    ) {
+      store.dispatch(getProduct(page.params.productId));
+    }
 
+    if(page.params.productName !== product.title && product.title) {
+      router.navigateId('product', {
+        params: {
+          productId: page.params.productId,
+          productName: product.title 
+        },
+        replace: true
+      });
+    }
+
+    this._product = product;
   }
 }
 
