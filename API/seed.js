@@ -2,7 +2,7 @@ const yargs = require('yargs');
 
 (async () => {
   const dbModule = require('./db');
-  const fs = require('fs');
+  // const fs = require('fs');
   const path = require('path');
   
   await dbModule.connect();

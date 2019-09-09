@@ -11,6 +11,7 @@ exports.Router = class {
     })
 
     wss.on('connection', ws => {
+      console.log('new connection', ws);
       const connection = {
         ws
       }
@@ -24,6 +25,7 @@ exports.Router = class {
       connections.push(connection)
       
       ws.on('message', async message => {
+        console.log(message);
         let messageObj = { reqId: null };
         try {
           try {

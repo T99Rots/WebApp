@@ -5,21 +5,29 @@ export const APIError = class extends Error {
 }
 
 const createDeepFunctionHandler = (callback) => {
-  const createProxy = (keyPath = []) => {
-    return new Proxy(async () => {},{
-      get: (target,property) => {
-        if(!(property in target)) target[property] = createProxy([...keyPath, property]);
-        return target[property];      
-      },
-      apply: (...args) => {
-        if(keyPath[keyPath.length-1] !== Symbol.toPrimitive) {
-          return callback(keyPath, args[2]);
-        }
-      },
-      has: () => true,
-      set: () => {}
-    })
-  }
+  const proxyCache = new WeakMap();
+  const asyncFunction = async () => {};
+  const createProxy = (keyPath = []) => new Proxy(asyncFunction, {
+    get: (target, property, proxy) => {
+      if(typeof property === 'symbol') return;
+      let childProxies = proxyCache.get(proxy);
+      if(!childProxies) {
+        childProxies = {};
+        proxyCache.set(proxy, childProxies);
+      }
+      if(!childProxies[property]) {
+        childProxies[property] = createProxy([...keyPath, property]);
+      }
+      return childProxies[property];
+    },
+    apply: (target, thisArg, argumentsList) => {
+      if(typeof keyPath[keyPath.length-1] !== 'symbol') {
+        return callback(keyPath, argumentsList);
+      }
+    },
+    has: () => true,
+    set: () => {}
+  });
   return createProxy();
 }
 

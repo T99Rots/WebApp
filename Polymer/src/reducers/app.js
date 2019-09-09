@@ -14,13 +14,7 @@ const initialState = {
 		title: 'Loading...'
 	},
   drawerOpened: false,
-  cartOpened: false,
-  categories: [
-    {name: 'Men\'s Outerwear', id: 'mens-outerwear', preview: '/img/mens_outerwear.jpg'},
-    {name: 'Ladies Outerwear', id: 'ladies-outerwear', preview: '/img/ladies_outerwear.jpg'},
-    {name: 'Men\'s T-Shirts', id: 'mens-t-shirts', preview: '/img/mens_tshirts.jpg'},
-    {name: 'Ladies T-Shirts', id: 'ladies-t-shirts', preview: '/img/ladies_tshirts.jpg'}
-  ]
+  cartOpened: false
 }
 
 const app = (state = initialState, action) => {

@@ -3,6 +3,8 @@ const { APIError } = require('../remote-object-server');
 const { ObjectID } = require('mongodb');
 const { hostname, port } = require('../index');
 
+console.log(db);
+
 const products = db.collection('products');
 
 exports.public = async (productId) => {

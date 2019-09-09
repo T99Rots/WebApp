@@ -152,11 +152,11 @@ class ProductPage extends connect(store)(PageViewElement) {
   }
 
   stateChanged({products: {product}, app: {page}}) {
-    console.log(
-      page.id === 'product',
-      product._id,
-      page.params.productId !== product._id
-    )
+    const productTitle = product.title && product.title
+      .replace(/'/g, '')
+      .replace(/[^\w]/g, '-')
+      .replace(/-+/g, '-')
+      .toLowerCase();
     if(
       page.id === 'product'
       &&page.params.productId
@@ -165,11 +165,14 @@ class ProductPage extends connect(store)(PageViewElement) {
       store.dispatch(getProduct(page.params.productId));
     }
 
-    if(page.params.productName !== product.title && product.title) {
+    if(
+      page.params.productName !== productTitle && productTitle
+      && page.id === 'product'
+    ) {
       router.navigateId('product', {
         params: {
           productId: page.params.productId,
-          productName: product.title 
+          productName: productTitle 
         },
         replace: true
       });
